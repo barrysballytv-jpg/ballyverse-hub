@@ -108,27 +108,30 @@ export function Navbar() {
               </Link>
             ))}
             
-            <AboutDialog />
-            
             {isAuthenticated ? (
-              <button 
-                onClick={() => logout()}
-                className="ml-4 px-4 py-2 bg-destructive/20 text-destructive border border-destructive hover:bg-destructive hover:text-white transition-all font-display text-xs uppercase"
-              >
-                Logout
-              </button>
+              <div className="flex items-center gap-4 ml-4">
+                <AboutDialog />
+                <button 
+                  onClick={() => logout()}
+                  className="px-4 py-2 bg-destructive/20 text-destructive border border-destructive hover:bg-destructive hover:text-white transition-all font-display text-xs uppercase"
+                >
+                  Logout
+                </button>
+              </div>
             ) : (
-              <Link href="/api/login">
-                <div className="ml-4 px-4 py-2 bg-secondary/10 text-secondary border border-secondary hover:bg-secondary hover:text-black transition-all font-display text-xs uppercase cursor-pointer">
-                  Login
-                </div>
-              </Link>
+              <div className="flex items-center gap-4 ml-4">
+                <AboutDialog />
+                <Link href="/api/login">
+                  <div className="px-4 py-2 bg-secondary/10 text-secondary border border-secondary hover:bg-secondary hover:text-black transition-all font-display text-xs uppercase cursor-pointer">
+                    Login
+                  </div>
+                </Link>
+              </div>
             )}
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-4">
-            <AboutDialog />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white hover:text-primary transition-colors"
@@ -158,6 +161,9 @@ export function Navbar() {
                 </div>
               </Link>
             ))}
+            <div className="px-3 py-4 border-l-2 border-transparent">
+              <AboutDialog />
+            </div>
             {isAuthenticated ? (
               <button 
                 onClick={() => { logout(); setIsOpen(false); }}
