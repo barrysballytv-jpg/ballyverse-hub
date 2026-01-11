@@ -99,10 +99,11 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              item.isAbout ? (
-                <AboutDialog key="about-desktop" />
-              ) : (
+            {navItems.map((item) => {
+              if (item.isAbout) {
+                return <AboutDialog key="about-desktop" />;
+              }
+              return (
                 <Link key={item.href} href={item.href}>
                   <div 
                     className={cn(
@@ -113,8 +114,8 @@ export function Navbar() {
                     {item.label}
                   </div>
                 </Link>
-              )
-            ))}
+              );
+            })}
             
             {isAuthenticated ? (
               <button 
@@ -148,20 +149,23 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-black/95 border-b border-primary/20 backdrop-blur-xl">
           <div className="px-4 pt-2 pb-6 space-y-4">
-            {navItems.map((item) => (
-              item.isAbout ? (
-                <AboutDialog 
-                  key="about-mobile" 
-                  trigger={
-                    <div 
-                      className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-transparent text-muted-foreground hover:text-white hover:pl-6 transition-all cursor-pointer"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.label}
-                    </div>
-                  } 
-                />
-              ) : (
+            {navItems.map((item) => {
+              if (item.isAbout) {
+                return (
+                  <AboutDialog 
+                    key="about-mobile" 
+                    trigger={
+                      <div 
+                        className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-transparent text-muted-foreground hover:text-white hover:pl-6 transition-all cursor-pointer"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.label}
+                      </div>
+                    } 
+                  />
+                );
+              }
+              return (
                 <Link key={item.href} href={item.href}>
                   <div 
                     className={cn(
@@ -175,8 +179,8 @@ export function Navbar() {
                     {item.label}
                   </div>
                 </Link>
-              )
-            ))}
+              );
+            })}
             {isAuthenticated ? (
               <button 
                 onClick={() => { logout(); setIsOpen(false); }}
