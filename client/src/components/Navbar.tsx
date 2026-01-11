@@ -18,16 +18,19 @@ const navItems = [
   { label: "Events", href: "/events" },
   { label: "Gallery", href: "/gallery" },
   { label: "Rules", href: "/rules" },
+  { label: "About", href: "#", isAbout: true },
 ];
 
-function AboutDialog() {
+function AboutDialog({ trigger }: { trigger?: React.ReactNode }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-2">
-          <Info className="w-4 h-4" />
-          About
-        </div>
+        {trigger || (
+          <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-2">
+            <Info className="w-4 h-4" />
+            About
+          </div>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-2xl bg-black/95 border-primary/20 text-white p-0 overflow-hidden">
         <DialogHeader className="p-6 border-b border-primary/10">
@@ -96,19 +99,21 @@ export function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <div 
-                  className={cn(
-                    "font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary",
-                    location === item.href ? "text-primary text-shadow-neon" : "text-muted-foreground"
-                  )}
-                >
-                  {item.label}
-                </div>
-              </Link>
+              item.isAbout ? (
+                <AboutDialog key="about-desktop" />
+              ) : (
+                <Link key={item.href} href={item.href}>
+                  <div 
+                    className={cn(
+                      "font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary",
+                      location === item.href ? "text-primary text-shadow-neon" : "text-muted-foreground"
+                    )}
+                  >
+                    {item.label}
+                  </div>
+                </Link>
+              )
             ))}
-            
-            <AboutDialog />
             
             {isAuthenticated ? (
               <button 
@@ -127,8 +132,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-4">
-            <AboutDialog />
+          <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white hover:text-primary transition-colors"
@@ -144,19 +148,33 @@ export function Navbar() {
         <div className="md:hidden bg-black/95 border-b border-primary/20 backdrop-blur-xl">
           <div className="px-4 pt-2 pb-6 space-y-4">
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <div 
-                  className={cn(
-                    "block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 transition-all cursor-pointer",
-                    location === item.href 
-                      ? "border-primary text-primary bg-primary/10 pl-6" 
-                      : "border-transparent text-muted-foreground hover:text-white hover:pl-6"
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </div>
-              </Link>
+              item.isAbout ? (
+                <AboutDialog 
+                  key="about-mobile" 
+                  trigger={
+                    <div 
+                      className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-transparent text-muted-foreground hover:text-white hover:pl-6 transition-all cursor-pointer"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.label}
+                    </div>
+                  } 
+                />
+              ) : (
+                <Link key={item.href} href={item.href}>
+                  <div 
+                    className={cn(
+                      "block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 transition-all cursor-pointer",
+                      location === item.href 
+                        ? "border-primary text-primary bg-primary/10 pl-6" 
+                        : "border-transparent text-muted-foreground hover:text-white hover:pl-6"
+                    )}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </div>
+                </Link>
+              )
             ))}
             {isAuthenticated ? (
               <button 
