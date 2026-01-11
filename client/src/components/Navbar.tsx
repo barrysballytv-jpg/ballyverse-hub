@@ -18,50 +18,46 @@ const navItems = [
   { label: "Events", href: "/events" },
   { label: "Gallery", href: "/gallery" },
   { label: "Rules", href: "/rules" },
-  { label: "About", href: "#", isAbout: true },
 ];
 
-function AboutDialog({ trigger }: { trigger?: React.ReactNode }) {
+function AboutDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {trigger || (
-          <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-2">
-            <Info className="w-4 h-4" />
-            About
-          </div>
-        )}
+        <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-2">
+          <Info className="w-4 h-4" />
+          About
+        </div>
       </DialogTrigger>
       <DialogContent className="max-w-2xl bg-black/95 border-primary/20 text-white p-0 overflow-hidden">
         <DialogHeader className="p-6 border-b border-primary/10">
-          <DialogTitle className="font-display text-2xl text-primary tracking-widest text-center uppercase">
-            About the Bally up gang
+          <DialogTitle className="font-display text-2xl text-primary tracking-widest text-center">
+            THE MOVEMENT
           </DialogTitle>
-          <div className="sr-only">About the Bally Up Gang movement and origins</div>
         </DialogHeader>
         <ScrollArea className="h-[70vh] px-8 py-6">
           <div className="prose prose-invert prose-gold font-body leading-relaxed space-y-6 text-muted-foreground pb-8">
             <p className="first-letter:text-4xl first-letter:font-display first-letter:text-primary first-letter:mr-3 first-letter:float-left">
-              The Bally Gang isn't just a name-it's a movement. Born from frustration with a world that loves to tear people down for no reason, it started with a simple idea: what if everyone was equal? Not in some cheesy poster way, but actually. No judgments, no hierarchy, no one flexing their cash or their clout to feel bigger.
+              The Bally Gang isn't just a name—it's a movement. Born from frustration with a world that loves to tear people down for no reason, it started with a simple idea: what if everyone was equal? Not in some cheesy poster way, but actually. No judgments, no hierarchy, no one flexing their cash or their clout to feel bigger.
             </p>
-
+            
             <div className="bg-primary/5 p-6 border border-primary/20 rounded-lg">
-              <h3 className="font-display text-white text-lg mb-2">The Bally part?</h3>
+              <h3 className="font-display text-white text-lg mb-2">Why the Bally?</h3>
               <p className="text-sm">
-                Short for balaclava. Yeah, the ski mask. Sounds weird, right? But here's why it clicks-put one on, and suddenly nobody knows if you're rich, broke, tall, short, whatever. You're just... you. And that's enough.
+                Short for balaclava. Yeah, the ski mask. Sounds weird, right? But here's why it clicks—put one on, and suddenly nobody knows if you're rich, broke, tall, short, whatever. You're just... you. And that's enough.
               </p>
             </div>
 
             <p>
-              We kicked off because Barry-he's the guy behind it-got fed up watching decent folks get shredded online. One day you're laughing at a video, next day some stranger's calling you trash 'cause your life's not Instagram-perfect. Bull. Everyone's equal, end of story. Money? Doesn't matter. Big house? Cool, but irrelevant. Feet too big? Who cares?
+              We kicked off because Barry—he's the guy behind it—got fed up watching decent folks get shredded online. One day you're laughing at a video, next day some stranger's calling you trash 'cause your life's not Instagram-perfect. Bull. Everyone's equal, end of story.
             </p>
 
             <p>
-              The Bally Gang flips that script. Online, the mask is optional-wear it if you're scared of the trolls, the ones who think perfection's required. It's like armor for the introverts, the ones who wanna chat but hate getting roasted. No one's forced, though. Rule one: you don't have to hide. And even if you're maskless, you're still in the gang. See, it's not about exclusion. It's protection first, trust second. Get to know someone behind the Bally? Great-they're your friend now. Argue? Fine, but you don't dox 'em. Loyalty's non-negotiable. That's the code, unspoken but iron.
+              The Bally Gang flips that script. Online, the mask is optional—wear it if you're scared of the trolls, the ones who think perfection's required. It's like armor for the introverts, the ones who wanna chat but hate getting roasted. No one's forced, though. Rule one: you don't have to hide.
             </p>
 
             <blockquote className="border-l-4 border-primary pl-6 py-4 bg-primary/5 italic text-white font-display">
-              "What do I want out of this? Simple. A place where people help each other, not hurt. Where equal isn't a slogan-it's how we roll. Meet up IRL? Masks off, no secrets. But that online shield? It stays for whoever needs it. Bally Gang isn't curing the world, but it's a pocket of it that's real. No one's better. Everyone's in. That's us."
+              "Bally Gang isn't curing the world, but it's a pocket of it that's real. No one's better. Everyone's in. That's us."
             </blockquote>
 
             <div className="pt-6 border-t border-primary/10">
@@ -70,7 +66,7 @@ function AboutDialog({ trigger }: { trigger?: React.ReactNode }) {
                 Barry's the country lad who drove the length of Australia, saw mines and mansions, heard every story under the sun. And through it all, he's learned one thing: everything's a lesson. You trip? Dust off, laugh, move on.
               </p>
               <p className="text-sm italic">
-                "I'm the guy who'll prank you just to see you grin-if you don't like it, I'll quit, no drama. Because here's the secret: we're all just kids balancing on that line between dirt and sky. And when the sun comes up, we're still here. Still equal. Still Bally. I'm happy to show my face anytime-but I keep it on so nobody feels like they're the only one hiding. If we're all masked, no one's special. No one's lesser."
+                "I'm the guy who'll prank you just to see you grin—if you don't like it, I'll quit, no drama. Because here's the secret: we're all just kids balancing on that line between dirt and sky. And when the sun comes up, we're still here. Still equal. Still Bally."
               </p>
             </div>
           </div>
@@ -99,23 +95,20 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => {
-              if (item.isAbout) {
-                return <AboutDialog key="about-desktop" />;
-              }
-              return (
-                <Link key={item.href} href={item.href}>
-                  <div 
-                    className={cn(
-                      "font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary",
-                      location === item.href ? "text-primary text-shadow-neon" : "text-muted-foreground"
-                    )}
-                  >
-                    {item.label}
-                  </div>
-                </Link>
-              );
-            })}
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div 
+                  className={cn(
+                    "font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary",
+                    location === item.href ? "text-primary text-shadow-neon" : "text-muted-foreground"
+                  )}
+                >
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+            
+            <AboutDialog />
             
             {isAuthenticated ? (
               <button 
@@ -134,7 +127,8 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-4">
+            <AboutDialog />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white hover:text-primary transition-colors"
@@ -149,38 +143,21 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-black/95 border-b border-primary/20 backdrop-blur-xl">
           <div className="px-4 pt-2 pb-6 space-y-4">
-            {navItems.map((item) => {
-              if (item.isAbout) {
-                return (
-                  <AboutDialog 
-                    key="about-mobile" 
-                    trigger={
-                      <div 
-                        className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-transparent text-muted-foreground hover:text-white hover:pl-6 transition-all cursor-pointer"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {item.label}
-                      </div>
-                    } 
-                  />
-                );
-              }
-              return (
-                <Link key={item.href} href={item.href}>
-                  <div 
-                    className={cn(
-                      "block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 transition-all cursor-pointer",
-                      location === item.href 
-                        ? "border-primary text-primary bg-primary/10 pl-6" 
-                        : "border-transparent text-muted-foreground hover:text-white hover:pl-6"
-                    )}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.label}
-                  </div>
-                </Link>
-              );
-            })}
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div 
+                  className={cn(
+                    "block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 transition-all cursor-pointer",
+                    location === item.href 
+                      ? "border-primary text-primary bg-primary/10 pl-6" 
+                      : "border-transparent text-muted-foreground hover:text-white hover:pl-6"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </div>
+              </Link>
+            ))}
             {isAuthenticated ? (
               <button 
                 onClick={() => { logout(); setIsOpen(false); }}
