@@ -86,6 +86,8 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
+        display: ["'Russo One'", "sans-serif"],
+        body: ["'Space Grotesk'", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
