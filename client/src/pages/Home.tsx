@@ -22,8 +22,9 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl md:text-7xl lg:text-9xl font-display text-white mb-6 tracking-tighter">
-              BALLY UP GANG <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-accent animate-pulse">BuG</span>
+            <h1 className="text-5xl md:text-7xl lg:text-9xl font-display text-white mb-6 tracking-tighter flex flex-wrap justify-center items-baseline gap-x-4">
+              <span>BALLY UP GANG</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-accent animate-pulse">BuG</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-mono mb-10">
               Elite gamers, masterful streamers, strategic helper.
