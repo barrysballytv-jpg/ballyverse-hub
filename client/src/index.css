@@ -5,28 +5,28 @@
 @tailwind utilities;
 
 :root {
-  /* Black and Gold Palette */
+  /* Black and High-Contrast Gold Palette */
   --background: 0 0% 0%;       /* Pure Black */
-  --foreground: 0 0% 100%;      /* White */
+  --foreground: 0 0% 100%;      /* Pure White */
   
-  --primary: 43 70% 50%;      /* Gold (#D4AF37) */
+  --primary: 45 100% 58%;      /* Vibrant Electric Gold */
   --primary-foreground: 0 0% 0%;
 
-  --secondary: 43 70% 30%;    /* Darker Gold */
+  --secondary: 45 100% 45%;    /* Rich Metallic Gold */
   --secondary-foreground: 0 0% 100%;
 
-  --muted: 0 0% 5%;
-  --muted-foreground: 0 0% 60%;
+  --muted: 0 0% 8%;
+  --muted-foreground: 0 0% 70%;
 
-  --accent: 43 70% 70%;       /* Lighter Gold */
+  --accent: 45 100% 75%;       /* Sparkling Champagne Gold */
   --accent-foreground: 0 0% 0%;
 
-  --destructive: 0 84% 60%;
+  --destructive: 0 100% 50%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 43 70% 20%;
-  --input: 43 70% 20%;
-  --ring: 43 70% 50%;
+  --border: 45 100% 30%;
+  --input: 45 100% 30%;
+  --ring: 45 100% 58%;
   
   --radius: 0px; 
   
@@ -40,29 +40,40 @@
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-black;
     font-family: var(--font-body);
     background-image: 
-      radial-gradient(circle at 50% 0%, hsla(43, 70%, 50%, 0.15), transparent 40%),
-      radial-gradient(circle at 80% 20%, hsla(43, 70%, 30%, 0.1), transparent 30%);
+      radial-gradient(circle at 50% 0%, hsla(45, 100%, 58%, 0.2), transparent 50%),
+      radial-gradient(circle at 80% 20%, hsla(45, 100%, 45%, 0.15), transparent 40%),
+      linear-gradient(to bottom, rgba(0,0,0,0.8), transparent),
+      url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
     background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    @apply uppercase tracking-wider;
-    text-shadow: 0 0 20px hsla(43, 70%, 50%, 0.3);
+    @apply uppercase tracking-[0.2em];
+    text-shadow: 0 0 15px hsla(45, 100% , 58%, 0.5), 0 0 30px hsla(45, 100%, 58%, 0.3);
   }
 }
 
 @layer utilities {
   .text-shadow-neon {
-    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    text-shadow: 0 0 10px hsla(45, 100%, 58%, 0.8), 0 0 20px hsla(45, 100%, 58%, 0.6), 0 0 30px hsla(45, 100%, 58%, 0.4);
   }
   
   .box-shadow-neon {
-    box-shadow: 0 0 10px hsla(43, 70%, 50%, 0.5), 0 0 20px hsla(43, 70%, 50%, 0.3);
+    box-shadow: 0 0 15px hsla(45, 100%, 58%, 0.6), 0 0 30px hsla(45, 100%, 58%, 0.4);
   }
   
   .box-shadow-green {
-    box-shadow: 0 0 10px hsla(43, 70%, 30%, 0.5), 0 0 20px hsla(43, 70%, 30%, 0.3);
+    box-shadow: 0 0 15px hsla(45, 100%, 45%, 0.6), 0 0 30px hsla(45, 100%, 45%, 0.4);
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, #FFD700 0%, #D4AF37 50%, #B8860B 100%);
+  }
+
+  .gold-border {
+    border: 2px solid;
+    border-image: linear-gradient(to right, #B8860B, #FFD700, #B8860B) 1;
   }
 
   .clip-path-slant {
