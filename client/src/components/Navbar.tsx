@@ -23,9 +23,12 @@ export function Navbar() {
         <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 cursor-pointer group">
+          <Link href="/" className="flex-shrink-0 cursor-pointer group flex flex-col leading-none">
             <span className="font-display text-2xl md:text-3xl text-primary tracking-widest group-hover:text-shadow-neon transition-all duration-300">
               BALLY UP <span className="text-secondary">GANG</span>
+            </span>
+            <span className="font-display text-xs md:text-sm text-muted-foreground tracking-[0.3em] uppercase opacity-70 group-hover:text-primary transition-colors">
+              Bug
             </span>
           </Link>
 
