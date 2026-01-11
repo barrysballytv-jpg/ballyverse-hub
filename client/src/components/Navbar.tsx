@@ -37,6 +37,7 @@ function AboutDialog({ trigger }: { trigger?: React.ReactNode }) {
           <DialogTitle className="font-display text-2xl text-primary tracking-widest text-center">
             THE MOVEMENT
           </DialogTitle>
+          <div className="sr-only">About the Bally Up Gang movement and origins</div>
         </DialogHeader>
         <ScrollArea className="h-[70vh] px-8 py-6">
           <div className="prose prose-invert prose-gold font-body leading-relaxed space-y-6 text-muted-foreground pb-8">
