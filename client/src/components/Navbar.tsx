@@ -1,8 +1,16 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Info } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -11,6 +19,62 @@ const navItems = [
   { label: "Gallery", href: "/gallery" },
   { label: "Rules", href: "/rules" },
 ];
+
+function AboutDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-2">
+          <Info className="w-4 h-4" />
+          About
+        </div>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl bg-black/95 border-primary/20 text-white p-0 overflow-hidden">
+        <DialogHeader className="p-6 border-b border-primary/10">
+          <DialogTitle className="font-display text-2xl text-primary tracking-widest text-center">
+            THE MOVEMENT
+          </DialogTitle>
+        </DialogHeader>
+        <ScrollArea className="h-[70vh] px-8 py-6">
+          <div className="prose prose-invert prose-gold font-body leading-relaxed space-y-6 text-muted-foreground pb-8">
+            <p className="first-letter:text-4xl first-letter:font-display first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+              The Bally Gang isn't just a name—it's a movement. Born from frustration with a world that loves to tear people down for no reason, it started with a simple idea: what if everyone was equal? Not in some cheesy poster way, but actually. No judgments, no hierarchy, no one flexing their cash or their clout to feel bigger.
+            </p>
+            
+            <div className="bg-primary/5 p-6 border border-primary/20 rounded-lg">
+              <h3 className="font-display text-white text-lg mb-2">Why the Bally?</h3>
+              <p className="text-sm">
+                Short for balaclava. Yeah, the ski mask. Sounds weird, right? But here's why it clicks—put one on, and suddenly nobody knows if you're rich, broke, tall, short, whatever. You're just... you. And that's enough.
+              </p>
+            </div>
+
+            <p>
+              We kicked off because Barry—he's the guy behind it—got fed up watching decent folks get shredded online. One day you're laughing at a video, next day some stranger's calling you trash 'cause your life's not Instagram-perfect. Bull. Everyone's equal, end of story.
+            </p>
+
+            <p>
+              The Bally Gang flips that script. Online, the mask is optional—wear it if you're scared of the trolls, the ones who think perfection's required. It's like armor for the introverts, the ones who wanna chat but hate getting roasted. No one's forced, though. Rule one: you don't have to hide.
+            </p>
+
+            <blockquote className="border-l-4 border-primary pl-6 py-4 bg-primary/5 italic text-white font-display">
+              "Bally Gang isn't curing the world, but it's a pocket of it that's real. No one's better. Everyone's in. That's us."
+            </blockquote>
+
+            <div className="pt-6 border-t border-primary/10">
+              <h3 className="font-display text-primary text-xl mb-3">Meet Barry</h3>
+              <p className="text-sm mb-4">
+                Barry's the country lad who drove the length of Australia, saw mines and mansions, heard every story under the sun. And through it all, he's learned one thing: everything's a lesson. You trip? Dust off, laugh, move on.
+              </p>
+              <p className="text-sm italic">
+                "I'm the guy who'll prank you just to see you grin—if you don't like it, I'll quit, no drama. Because here's the secret: we're all just kids balancing on that line between dirt and sky. And when the sun comes up, we're still here. Still equal. Still Bally."
+              </p>
+            </div>
+          </div>
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export function Navbar() {
   const [location] = useLocation();
@@ -44,6 +108,8 @@ export function Navbar() {
               </Link>
             ))}
             
+            <AboutDialog />
+            
             {isAuthenticated ? (
               <button 
                 onClick={() => logout()}
@@ -61,7 +127,8 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-4">
+            <AboutDialog />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white hover:text-primary transition-colors"
