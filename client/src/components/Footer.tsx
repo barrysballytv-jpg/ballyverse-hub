@@ -9,7 +9,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <h2 className="font-display text-2xl text-primary tracking-widest">
-              BuG<span className="text-secondary">.GANG</span>
+              BALLY UP <span className="text-secondary">GANG</span>
             </h2>
             <p className="text-muted-foreground max-w-xs mx-auto md:mx-0">
               The ultimate community for gamers, streamers, and helpers. 

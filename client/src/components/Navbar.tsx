@@ -25,7 +25,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 cursor-pointer group">
             <span className="font-display text-2xl md:text-3xl text-primary tracking-widest group-hover:text-shadow-neon transition-all duration-300">
-              BuG<span className="text-secondary">.GANG</span>
+              BALLY UP <span className="text-secondary">GANG</span>
             </span>
           </Link>
 
