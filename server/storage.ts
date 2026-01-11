@@ -1,12 +1,14 @@
 import { db } from "./db";
 import {
-  users, merchandise, events, gallery, socialLinks, teams,
+  users, merchandise, events, gallery, socialLinks, teams, streams, suggestions,
   type User, type InsertUser,
   type Merchandise, type InsertMerchandise,
   type Event, type InsertEvent,
   type GalleryItem, type InsertGalleryItem,
   type SocialLink, type InsertSocialLink,
-  type TeamMember, type InsertTeamMember
+  type TeamMember, type InsertTeamMember,
+  type Stream, type InsertStream,
+  type Suggestion, type InsertSuggestion
 } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
@@ -35,10 +37,16 @@ export interface IStorage {
   // Teams
   getTeamMembers(): Promise<TeamMember[]>;
   createTeamMember(member: InsertTeamMember): Promise<TeamMember>;
+
+  // Streams
+  getStreams(): Promise<Stream[]>;
+  createStream(stream: InsertStream): Promise<Stream>;
+
+  // Suggestions
+  createSuggestion(suggestion: InsertSuggestion): Promise<Suggestion>;
 }
 
 export class DatabaseStorage implements IStorage {
-  // User methods
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
@@ -54,7 +62,6 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  // Merchandise methods
   async getMerchandise(): Promise<Merchandise[]> {
     return await db.select().from(merchandise);
   }
@@ -64,7 +71,6 @@ export class DatabaseStorage implements IStorage {
     return newItem;
   }
 
-  // Event methods
   async getEvents(): Promise<Event[]> {
     return await db.select().from(events);
   }
@@ -74,17 +80,15 @@ export class DatabaseStorage implements IStorage {
     return newEvent;
   }
 
-  // Gallery methods
   async getGalleryItems(): Promise<GalleryItem[]> {
     return await db.select().from(gallery);
   }
 
   async createGalleryItem(item: InsertGalleryItem): Promise<GalleryItem> {
-    const [newItem] = await db.insert(gallery).values(item).returning();
+    const [newItem] = await db.insert(gallery).from(gallery).values(item).returning();
     return newItem;
   }
 
-  // Socials methods
   async getSocialLinks(): Promise<SocialLink[]> {
     return await db.select().from(socialLinks);
   }
@@ -94,7 +98,6 @@ export class DatabaseStorage implements IStorage {
     return newLink;
   }
 
-  // Team methods
   async getTeamMembers(): Promise<TeamMember[]> {
     return await db.select().from(teams);
   }
@@ -102,6 +105,20 @@ export class DatabaseStorage implements IStorage {
   async createTeamMember(member: InsertTeamMember): Promise<TeamMember> {
     const [newMember] = await db.insert(teams).values(member).returning();
     return newMember;
+  }
+
+  async getStreams(): Promise<Stream[]> {
+    return await db.select().from(streams);
+  }
+
+  async createStream(stream: InsertStream): Promise<Stream> {
+    const [newStream] = await db.insert(streams).values(stream).returning();
+    return newStream;
+  }
+
+  async createSuggestion(suggestion: InsertSuggestion): Promise<Suggestion> {
+    const [newSuggestion] = await db.insert(suggestions).values(suggestion).returning();
+    return newSuggestion;
   }
 }
 

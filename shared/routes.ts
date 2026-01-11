@@ -6,12 +6,16 @@ import {
   insertGallerySchema, 
   insertSocialLinkSchema,
   insertTeamSchema,
+  insertStreamSchema,
+  insertSuggestionSchema,
   users,
   merchandise,
   events,
   gallery,
   socialLinks,
-  teams
+  teams,
+  streams,
+  suggestions
 } from './schema';
 
 export const errorSchemas = {
@@ -97,6 +101,26 @@ export const api = {
       path: '/api/teams',
       responses: {
         200: z.array(z.custom<typeof teams.$inferSelect>()),
+      },
+    },
+  },
+  streams: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/streams',
+      responses: {
+        200: z.array(z.custom<typeof streams.$inferSelect>()),
+      },
+    },
+  },
+  suggestions: {
+    create: {
+      method: 'POST' as const,
+      path: '/api/suggestions',
+      input: insertSuggestionSchema,
+      responses: {
+        201: z.object({ message: z.string() }),
+        400: errorSchemas.validation,
       },
     },
   }

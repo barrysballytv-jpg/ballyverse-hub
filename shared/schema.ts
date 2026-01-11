@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export * from "./models/auth";
 
-// Users table (Replit Auth uses distinct mechanism, but we'll keep a local users table for roles/profile)
+// Users table
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
@@ -53,6 +53,22 @@ export const socialLinks = pgTable("social_links", {
   url: text("url").notNull(),
 });
 
+export const streams = pgTable("streams", {
+  id: serial("id").primaryKey(),
+  streamerName: text("streamer_name").notNull(),
+  platform: text("platform").notNull(), // 'Twitch', 'YouTube', 'Kick'
+  url: text("url").notNull(),
+  isLive: boolean("is_live").default(false),
+});
+
+export const suggestions = pgTable("suggestions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  type: text("type").notNull(), // 'suggestion', 'complaint'
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Insert Schemas
 export const insertUserSchema = createInsertSchema(users).omit({ id: true });
 export const insertTeamSchema = createInsertSchema(teams).omit({ id: true });
@@ -60,6 +76,8 @@ export const insertMerchSchema = createInsertSchema(merchandise).omit({ id: true
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
 export const insertGallerySchema = createInsertSchema(gallery).omit({ id: true });
 export const insertSocialLinkSchema = createInsertSchema(socialLinks).omit({ id: true });
+export const insertStreamSchema = createInsertSchema(streams).omit({ id: true });
+export const insertSuggestionSchema = createInsertSchema(suggestions).omit({ id: true, createdAt: true });
 
 // Types
 export type User = typeof users.$inferSelect;
@@ -79,3 +97,9 @@ export type InsertGalleryItem = z.infer<typeof insertGallerySchema>;
 
 export type SocialLink = typeof socialLinks.$inferSelect;
 export type InsertSocialLink = z.infer<typeof insertSocialLinkSchema>;
+
+export type Stream = typeof streams.$inferSelect;
+export type InsertStream = z.infer<typeof insertStreamSchema>;
+
+export type Suggestion = typeof suggestions.$inferSelect;
+export type InsertSuggestion = z.infer<typeof insertSuggestionSchema>;
