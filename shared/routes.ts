@@ -5,11 +5,13 @@ import {
   insertEventSchema, 
   insertGallerySchema, 
   insertSocialLinkSchema,
+  insertTeamSchema,
   users,
   merchandise,
   events,
   gallery,
-  socialLinks
+  socialLinks,
+  teams
 } from './schema';
 
 export const errorSchemas = {
@@ -86,6 +88,15 @@ export const api = {
       path: '/api/socials',
       responses: {
         200: z.array(z.custom<typeof socialLinks.$inferSelect>()),
+      },
+    },
+  },
+  teams: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/teams',
+      responses: {
+        200: z.array(z.custom<typeof teams.$inferSelect>()),
       },
     },
   }

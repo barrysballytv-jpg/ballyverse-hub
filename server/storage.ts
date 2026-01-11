@@ -1,11 +1,12 @@
 import { db } from "./db";
 import {
-  users, merchandise, events, gallery, socialLinks,
+  users, merchandise, events, gallery, socialLinks, teams,
   type User, type InsertUser,
   type Merchandise, type InsertMerchandise,
   type Event, type InsertEvent,
   type GalleryItem, type InsertGalleryItem,
-  type SocialLink, type InsertSocialLink
+  type SocialLink, type InsertSocialLink,
+  type TeamMember, type InsertTeamMember
 } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
@@ -29,6 +30,11 @@ export interface IStorage {
 
   // Socials
   getSocialLinks(): Promise<SocialLink[]>;
+  createSocialLink(link: InsertSocialLink): Promise<SocialLink>;
+
+  // Teams
+  getTeamMembers(): Promise<TeamMember[]>;
+  createTeamMember(member: InsertTeamMember): Promise<TeamMember>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -81,6 +87,21 @@ export class DatabaseStorage implements IStorage {
   // Socials methods
   async getSocialLinks(): Promise<SocialLink[]> {
     return await db.select().from(socialLinks);
+  }
+
+  async createSocialLink(link: InsertSocialLink): Promise<SocialLink> {
+    const [newLink] = await db.insert(socialLinks).values(link).returning();
+    return newLink;
+  }
+
+  // Team methods
+  async getTeamMembers(): Promise<TeamMember[]> {
+    return await db.select().from(teams);
+  }
+
+  async createTeamMember(member: InsertTeamMember): Promise<TeamMember> {
+    const [newMember] = await db.insert(teams).values(member).returning();
+    return newMember;
   }
 }
 

@@ -8,9 +8,18 @@ export * from "./models/auth";
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
-  password: text("password").notNull(), // Required by local auth, unused if Replit Auth is primary but good to have
+  password: text("password").notNull(), 
   isAdmin: boolean("is_admin").default(false),
   avatarUrl: text("avatar_url"),
+});
+
+export const teams = pgTable("teams", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  role: text("role").notNull(), // e.g., 'Founder', 'Streamer', 'Helper'
+  avatarUrl: text("avatar_url"),
+  bio: text("bio"),
+  isVip: boolean("is_vip").default(false),
 });
 
 export const merchandise = pgTable("merchandise", {
@@ -46,6 +55,7 @@ export const socialLinks = pgTable("social_links", {
 
 // Insert Schemas
 export const insertUserSchema = createInsertSchema(users).omit({ id: true });
+export const insertTeamSchema = createInsertSchema(teams).omit({ id: true });
 export const insertMerchSchema = createInsertSchema(merchandise).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
 export const insertGallerySchema = createInsertSchema(gallery).omit({ id: true });
@@ -54,6 +64,9 @@ export const insertSocialLinkSchema = createInsertSchema(socialLinks).omit({ id:
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+
+export type TeamMember = typeof teams.$inferSelect;
+export type InsertTeamMember = z.infer<typeof insertTeamSchema>;
 
 export type Merchandise = typeof merchandise.$inferSelect;
 export type InsertMerchandise = z.infer<typeof insertMerchSchema>;
