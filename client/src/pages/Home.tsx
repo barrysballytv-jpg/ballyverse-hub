@@ -23,12 +23,12 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-5xl md:text-7xl lg:text-9xl font-display text-white mb-6 tracking-tighter">
-              BALLY UP <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-secondary animate-pulse">GANG</span>
+              BALLY UP <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-accent animate-pulse">GANG</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto font-mono mb-10">
-              GAMERS. STREAMERS. HELPERS.
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-mono mb-10">
+              Elite gamers, masterful streamers, strategic helper.
               <br />
-              <span className="text-primary">WE DO A BIT OF EVERYTHING.</span>
+              <span className="text-primary uppercase">We handle a wide range of services.</span>
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
