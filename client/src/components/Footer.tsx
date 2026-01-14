@@ -1,4 +1,4 @@
-import { Github, Instagram, Twitter, Youtube, Twitch, MessageCircle } from "lucide-react";
+import { Github, Instagram, Twitter, Youtube, Twitch, Music } from "lucide-react";
 
 export function Footer() {
   return (
@@ -30,8 +30,8 @@ export function Footer() {
               <a href="https://www.instagram.com/bally_upgang?igsh=Z2dobTk3aHVzcXox" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary hover:text-black transition-all rounded-sm group">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 bg-white/5 hover:bg-primary hover:text-black transition-all rounded-sm group">
-                <MessageCircle className="w-5 h-5" />
+              <a href="https://www.tiktok.com/@ballyupgang" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary hover:text-black transition-all rounded-sm group">
+                <Music className="w-5 h-5" />
               </a>
             </div>
           </div>
