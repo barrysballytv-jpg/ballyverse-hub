@@ -13,10 +13,10 @@ import hoodie2 from "@assets/IMG_4073_1768367634878.jpeg";
 
 const COMING_SOON_ITEMS = [
   {
-    id: 'cs-2',
-    name: "BuG Streetwear Crewneck",
-    description: "Clean, bold, and essential. The classic Bally Up Gang crewneck featuring our signature typography. Built for comfort and clout.",
-    imageUrl: hoodie2,
+    id: 'cs-1',
+    name: "BUG GOLD EDITION HOODIE",
+    description: "Exclusive Bally Up Gang limited edition hoodie. Premium heavy-weight fabric with high-density 'BuG' print. The ultimate piece for the movement.",
+    imageUrl: hoodie1,
     comingSoon: true
   }
 ];
