@@ -13,6 +13,7 @@ import Merchandise from "@/pages/Merchandise";
 import Events from "@/pages/Events";
 import Gallery from "@/pages/Gallery";
 import Rules from "@/pages/Rules";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/events" component={Events} />
       <Route path="/gallery" component={Gallery} />
       <Route path="/rules" component={Rules} />
+      <Route path="/privacy" component={PrivacyPolicy} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

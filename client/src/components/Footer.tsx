@@ -41,7 +41,7 @@ export function Footer() {
             <h3 className="font-display text-white text-lg">Legal</h3>
             <div className="flex flex-col space-y-2 text-sm text-muted-foreground">
               <a href="/rules" className="hover:text-primary transition-colors">Community Rules</a>
-              <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
+              <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
             </div>
           </div>
