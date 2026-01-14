@@ -83,7 +83,7 @@ export default function Events() {
             {(!events || events.length === 0) && (
               <div className="text-center py-20 bg-black/20 border border-white/5 p-8">
                 <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl text-white font-display mb-2">No Upcoming Events</h3>
+                <h3 className="text-xl text-white font-display mb-2">Dates Coming Soon</h3>
                 <p className="text-muted-foreground font-mono">Check back later for new drops.</p>
               </div>
             )}
