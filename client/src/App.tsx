@@ -14,6 +14,7 @@ import Events from "@/pages/Events";
 import Gallery from "@/pages/Gallery";
 import Rules from "@/pages/Rules";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/gallery" component={Gallery} />
       <Route path="/rules" component={Rules} />
       <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/terms" component={TermsOfService} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
