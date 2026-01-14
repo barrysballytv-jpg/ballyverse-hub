@@ -17,7 +17,6 @@ const COMING_SOON_ITEMS = [
     name: "BUG GOLD EDITION HOODIE",
     description: "Exclusive Bally Up Gang limited edition hoodie. Premium heavy-weight fabric with high-density 'BuG' print. The ultimate piece for the movement.",
     imageUrl: hoodie1,
-    price: 8999,
     comingSoon: true
   },
   {
@@ -100,9 +99,9 @@ export default function Merchandise() {
                     alt={item.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0" 
                   />
-                  {item.price && !item.comingSoon ? (
+                  {('price' in item && item.price) ? (
                     <div className="absolute top-4 right-4 bg-black/80 backdrop-blur px-3 py-1 text-white font-mono border border-primary z-10">
-                      ${(item.price / 100).toFixed(2)}
+                      ${((item as any).price / 100).toFixed(2)}
                     </div>
                   ) : null}
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
