@@ -14,7 +14,7 @@ import hoodie2 from "@assets/IMG_4073_1768367634878.jpeg";
 const COMING_SOON_ITEMS = [
   {
     id: 'cs-1',
-    name: "BuG Limited Hoodie v1",
+    name: "BUG GOLD EDITION HOODIE",
     description: "Exclusive Bally Up Gang limited edition hoodie. Premium heavy-weight fabric with high-density 'BuG' print. The ultimate piece for the movement.",
     imageUrl: hoodie1,
     price: 8999,
