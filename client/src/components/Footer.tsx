@@ -24,7 +24,7 @@ export function Footer() {
               <a href="#" className="p-2 bg-white/5 hover:bg-primary hover:text-black transition-all rounded-sm group">
                 <Twitch className="w-5 h-5" />
               </a>
-              <a href="#" className="p-2 bg-white/5 hover:bg-primary hover:text-black transition-all rounded-sm group">
+              <a href="https://www.youtube.com/@BALLYUPGANGBuG" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary hover:text-black transition-all rounded-sm group">
                 <Youtube className="w-5 h-5" />
               </a>
               <a href="https://www.instagram.com/bally_upgang?igsh=Z2dobTk3aHVzcXox" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 hover:bg-primary hover:text-black transition-all rounded-sm group">
