@@ -100,7 +100,7 @@ export default function Merchandise() {
                     alt={item.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0" 
                   />
-                  {item.price ? (
+                  {item.price && !item.comingSoon ? (
                     <div className="absolute top-4 right-4 bg-black/80 backdrop-blur px-3 py-1 text-white font-mono border border-primary z-10">
                       ${(item.price / 100).toFixed(2)}
                     </div>
