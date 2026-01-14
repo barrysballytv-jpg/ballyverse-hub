@@ -8,10 +8,29 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
+import hoodie1 from "@assets/IMG_4074_1768367634878.jpeg";
+import hoodie2 from "@assets/IMG_4073_1768367634878.jpeg";
+
+const COMING_SOON_ITEMS = [
+  {
+    id: 'cs-1',
+    name: "BuG Limited Hoodie v1",
+    description: "Exclusive Bally Up Gang limited edition hoodie. Premium heavy-weight fabric with high-density 'BuG' print. The ultimate piece for the movement.",
+    imageUrl: hoodie1,
+    comingSoon: true
+  },
+  {
+    id: 'cs-2',
+    name: "BuG Streetwear Crewneck",
+    description: "Clean, bold, and essential. The classic Bally Up Gang crewneck featuring our signature typography. Built for comfort and clout.",
+    imageUrl: hoodie2,
+    comingSoon: true
+  }
+];
 
 export default function Merchandise() {
   const { data: items, isLoading } = useMerchandise();
-  const { user } = useAuth(); // Assuming useAuth provides user info and roles
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   
   return (
@@ -23,7 +42,7 @@ export default function Merchandise() {
             <p className="text-muted-foreground font-mono">LIMITED EDITION GEAR FOR THE GANG</p>
           </div>
           
-          {user && ( // Only show if logged in (ideally check for admin role)
+          {user && (
             <CreateMerchDialog open={isOpen} onOpenChange={setIsOpen} />
           )}
         </div>
@@ -34,6 +53,7 @@ export default function Merchandise() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Real Items from DB */}
             {items?.map((item) => (
               <NeonCard key={item.id} variant="accent" className="flex flex-col h-full group">
                 <div className="relative aspect-square mb-6 overflow-hidden bg-black/50 border border-white/5">
@@ -70,7 +90,34 @@ export default function Merchandise() {
               </NeonCard>
             ))}
 
-            {(!items || items.length === 0) && (
+            {/* Coming Soon Items */}
+            {COMING_SOON_ITEMS.map((item) => (
+              <NeonCard key={item.id} variant="primary" className="flex flex-col h-full group opacity-80 hover:opacity-100 transition-opacity">
+                <div className="relative aspect-square mb-6 overflow-hidden bg-black/50 border border-white/5">
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0" 
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <span className="bg-primary text-black px-4 py-2 font-display text-xl uppercase tracking-tighter -rotate-12 border-2 border-black shadow-xl">
+                      Coming Soon
+                    </span>
+                  </div>
+                </div>
+                
+                <h3 className="text-2xl text-white font-display mb-2">{item.name}</h3>
+                <p className="text-muted-foreground text-sm flex-grow mb-6 line-clamp-3">
+                  {item.description}
+                </p>
+                
+                <button disabled className="w-full py-3 bg-primary/20 text-primary border border-primary/50 font-display uppercase tracking-wider cursor-not-allowed">
+                  Coming Soon
+                </button>
+              </NeonCard>
+            ))}
+
+            {(!items || items.length === 0) && COMING_SOON_ITEMS.length === 0 && (
               <div className="col-span-full text-center py-20 text-muted-foreground font-mono">
                 NO MERCH AVAILABLE YET. STAY TUNED.
               </div>
