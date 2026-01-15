@@ -14,9 +14,17 @@ import hoodie2 from "@assets/IMG_4073_1768367634878.jpeg";
 const COMING_SOON_ITEMS = [
   {
     id: 'cs-1',
-    name: "BUG GOLD EDITION HOODIE",
+    name: "BuG Limited Hoodie v1",
     description: "Exclusive Bally Up Gang limited edition hoodie. Premium heavy-weight fabric with high-density 'BuG' print. The ultimate piece for the movement.",
     imageUrl: hoodie1,
+    price: 8999,
+    comingSoon: true
+  },
+  {
+    id: 'cs-2',
+    name: "BuG Streetwear Crewneck",
+    description: "Clean, bold, and essential. The classic Bally Up Gang crewneck featuring our signature typography. Built for comfort and clout.",
+    imageUrl: hoodie2,
     comingSoon: true
   }
 ];
@@ -92,9 +100,9 @@ export default function Merchandise() {
                     alt={item.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0" 
                   />
-                  {('price' in item && item.price) ? (
+                  {item.price && !item.comingSoon ? (
                     <div className="absolute top-4 right-4 bg-black/80 backdrop-blur px-3 py-1 text-white font-mono border border-primary z-10">
-                      ${((item as any).price / 100).toFixed(2)}
+                      ${(item.price / 100).toFixed(2)}
                     </div>
                   ) : null}
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
