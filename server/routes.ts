@@ -109,6 +109,12 @@ async function seedDatabase() {
     await storage.createGalleryItem({ title: "Bally Up Gang Elite FC Moment", type: "video", url: "https://youtu.be/vlrJr8SFZ64?si=UYksVcjhR7oBfwhv", category: "Best FC Moments" });
     await storage.createGalleryItem({ title: "Squad Victory", type: "image", url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800", category: "Best FC Moments" });
 
+    // Community Logos
+    await storage.createGalleryItem({ title: "Bally Up Gang Crown Logo", type: "image", url: "/attached_assets/IMG_3811_1768470082283.jpeg", category: "Community Logos" });
+    await storage.createGalleryItem({ title: "Street Style Branding", type: "image", url: "/attached_assets/IMG_3806_1768470082283.jpeg", category: "Community Logos" });
+    await storage.createGalleryItem({ title: "Fire and Smoke Logo", type: "image", url: "/attached_assets/IMG_3759_1768470082283.jpeg", category: "Community Logos" });
+    await storage.createGalleryItem({ title: "GTA Style Skull Crown", type: "image", url: "/attached_assets/IMG_3758_1768470082283.jpeg", category: "Community Logos" });
+
     // Winstreaks
     await storage.createGalleryItem({ title: "10 Game Winstreak", type: "image", url: "https://images.unsplash.com/photo-1533134486753-c81769d9607b?w=800", category: "Winstreaks" });
     await storage.createGalleryItem({ title: "The Champion Era", type: "video", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", category: "Winstreaks" });

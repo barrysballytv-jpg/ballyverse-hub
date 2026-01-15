@@ -14,7 +14,7 @@ export default function Gallery() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  const categories = ["Best Moments", "Best FC Moments", "Winstreaks"];
+  const categories = ["Best Moments", "Best FC Moments", "Community Logos", "Winstreaks"];
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-4">
