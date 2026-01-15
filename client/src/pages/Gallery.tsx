@@ -14,19 +14,13 @@ export default function Gallery() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  const categories = [
-    { id: "streaks", title: "BEST MOMENTS & WIN STREAKS", description: "LOGOS, BANNERS & EPIC WINS" },
-    { id: "fc_moments", title: "BEST FC MOMENTS", description: "FOOTBALL CLUB HIGHLIGHTS" },
-    { id: "general", title: "MEDIA GALLERY", description: "CLIPS, PICS & HIGHLIGHTS" },
-  ];
-
   return (
     <div className="min-h-screen pt-32 pb-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-6">
           <div>
-            <h1 className="text-4xl md:text-6xl font-display text-white mb-2">GALLERY</h1>
-            <p className="text-muted-foreground font-mono font-bold tracking-widest">BUILT FOR THE GANG</p>
+            <h1 className="text-4xl md:text-6xl font-display text-white mb-2">MEDIA GALLERY</h1>
+            <p className="text-muted-foreground font-mono">CLIPS, PICS & HIGHLIGHTS</p>
           </div>
           
           {user && (
@@ -39,60 +33,47 @@ export default function Gallery() {
             <Loader2 className="w-12 h-12 text-accent animate-spin" />
           </div>
         ) : (
-          <div className="space-y-16">
-            {categories.map((category) => {
-              const categoryItems = items?.filter(item => (item.category === category.id) || (category.id === 'general' && !item.category)) || [];
-              if (category.id !== 'general' && categoryItems.length === 0) return null;
-              
-              return (
-                <div key={category.id} className="space-y-8">
-                  <div className="border-l-4 border-accent pl-4">
-                    <h2 className="text-2xl md:text-3xl font-display text-white">{category.title}</h2>
-                    <p className="text-muted-foreground font-mono text-xs">{category.description}</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {categoryItems.map((item) => (
-                      <NeonCard key={item.id} variant="primary" className="p-0 overflow-hidden group border-0 bg-black">
-                        <div className="relative aspect-video">
-                          {item.type === 'video' ? (
-                            <>
-                              <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10">
-                                <Play className="w-12 h-12 text-white opacity-80 group-hover:scale-110 transition-transform" />
-                              </div>
-                              <img 
-                                src={`https://img.youtube.com/vi/${getYouTubeId(item.url)}/hqdefault.jpg`} 
-                                alt={item.title}
-                                className="w-full h-full object-cover"
-                                onError={(e) => {
-                                  e.currentTarget.src = "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop";
-                                }}
-                              />
-                            </>
-                          ) : (
-                            <img 
-                              src={item.url} 
-                              alt={item.title}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                            />
-                          )}
-                          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-20">
-                            <h3 className="text-white font-display text-lg drop-shadow-md">{item.title}</h3>
-                          </div>
-                        </div>
-                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-30" />
-                      </NeonCard>
-                    ))}
-
-                    {categoryItems.length === 0 && category.id === 'general' && (
-                      <div className="col-span-full text-center py-20 text-muted-foreground font-mono">
-                        GALLERY EMPTY. UPLOAD SOMETHING.
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {items?.map((item) => (
+              <NeonCard key={item.id} variant="primary" className="p-0 overflow-hidden group border-0 bg-black">
+                <div className="relative aspect-video">
+                  {item.type === 'video' ? (
+                    <>
+                      {/* Simple video embed or link preview */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10">
+                        <Play className="w-12 h-12 text-white opacity-80 group-hover:scale-110 transition-transform" />
                       </div>
-                    )}
+                      <img 
+                        src={`https://img.youtube.com/vi/${getYouTubeId(item.url)}/hqdefault.jpg`} 
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback if not youtube or error
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop";
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <img 
+                      src={item.url} 
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                    />
+                  )}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-20">
+                    <h3 className="text-white font-display text-lg drop-shadow-md">{item.title}</h3>
                   </div>
                 </div>
-              );
-            })}
+                {/* Clicking usually would open lightbox, for now just links to source */}
+                <a href={item.url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-30" />
+              </NeonCard>
+            ))}
+
+            {(!items || items.length === 0) && (
+              <div className="col-span-full text-center py-20 text-muted-foreground font-mono">
+                GALLERY EMPTY. UPLOAD SOMETHING.
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -119,7 +100,6 @@ function CreateGalleryDialog({ open, onOpenChange }: { open: boolean; onOpenChan
       title: formData.get("title") as string,
       url: formData.get("url") as string,
       type: type,
-      category: formData.get("category") as string,
     }, {
       onSuccess: () => {
         toast({ title: "Success", description: "Item added to gallery!" });
@@ -143,20 +123,6 @@ function CreateGalleryDialog({ open, onOpenChange }: { open: boolean; onOpenChan
           <DialogTitle className="font-display text-accent">Add To Gallery</DialogTitle>
         </DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4 mt-4">
-          <div className="space-y-2">
-            <Label>Category</Label>
-            <Select name="category" defaultValue="general">
-              <SelectTrigger className="bg-black/50 border-white/10">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="general">General</SelectItem>
-                <SelectItem value="streaks">Best Moments & Win Streaks</SelectItem>
-                <SelectItem value="fc_moments">Best FC Moments</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           <div className="space-y-2">
             <Label>Media Type</Label>
             <Select value={type} onValueChange={setType}>

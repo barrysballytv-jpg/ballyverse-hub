@@ -1,7 +1,6 @@
 import { db } from "./db";
 import {
   users, merchandise, events, gallery, socialLinks, teams, streams, suggestions,
-  galleryComments, galleryReactions,
   type User, type InsertUser,
   type Merchandise, type InsertMerchandise,
   type Event, type InsertEvent,
@@ -9,26 +8,27 @@ import {
   type SocialLink, type InsertSocialLink,
   type TeamMember, type InsertTeamMember,
   type Stream, type InsertStream,
-  type Suggestion, type InsertSuggestion,
-  type GalleryComment, type InsertGalleryComment,
-  type GalleryReaction, type InsertGalleryReaction
+  type Suggestion, type InsertSuggestion
 } from "@shared/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  // ... existing methods
+  // Users
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+
+  // Merchandise
+  getMerchandise(): Promise<Merchandise[]>;
+  createMerchandise(item: InsertMerchandise): Promise<Merchandise>;
+
+  // Events
+  getEvents(): Promise<Event[]>;
+  createEvent(event: InsertEvent): Promise<Event>;
+
+  // Gallery
   getGalleryItems(): Promise<GalleryItem[]>;
   createGalleryItem(item: InsertGalleryItem): Promise<GalleryItem>;
-  
-  // Comments
-  getCommentsByGalleryItem(itemId: number): Promise<(GalleryComment & { user: User })[]>;
-  createComment(comment: InsertGalleryComment): Promise<GalleryComment>;
-  
-  // Reactions
-  getReactionsByGalleryItem(itemId: number): Promise<GalleryReaction[]>;
-  toggleReaction(reaction: InsertGalleryReaction): Promise<void>;
-  
-  // ... rest of interface
 
   // Socials
   getSocialLinks(): Promise<SocialLink[]>;
@@ -85,60 +85,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createGalleryItem(item: InsertGalleryItem): Promise<GalleryItem> {
-    const [newItem] = await db.insert(gallery).values(item).returning();
+    const [newItem] = await db.insert(gallery).from(gallery).values(item).returning();
     return newItem;
-  }
-
-  async getCommentsByGalleryItem(itemId: number): Promise<(GalleryComment & { user: User })[]> {
-    const results = await db
-      .select({
-        comment: galleryComments,
-        user: users,
-      })
-      .from(galleryComments)
-      .where(eq(galleryComments.galleryItemId, itemId))
-      .leftJoin(users, eq(galleryComments.userId, users.id));
-
-    return results.map(r => ({
-      ...r.comment,
-      user: r.user!,
-    }));
-  }
-
-  async createComment(comment: InsertGalleryComment): Promise<GalleryComment> {
-    const [newComment] = await db.insert(galleryComments).values(comment).returning();
-    return newComment;
-  }
-
-  async getReactionsByGalleryItem(itemId: number): Promise<GalleryReaction[]> {
-    return await db.select().from(galleryReactions).where(eq(galleryReactions.galleryItemId, itemId));
-  }
-
-  async toggleReaction(reaction: InsertGalleryReaction): Promise<void> {
-    const existing = await db
-      .select()
-      .from(galleryReactions)
-      .where(
-        and(
-          eq(galleryReactions.galleryItemId, reaction.galleryItemId),
-          eq(galleryReactions.userId, reaction.userId),
-          eq(galleryReactions.type, reaction.type)
-        )
-      );
-
-    if (existing.length > 0) {
-      await db
-        .delete(galleryReactions)
-        .where(
-          and(
-            eq(galleryReactions.galleryItemId, reaction.galleryItemId),
-            eq(galleryReactions.userId, reaction.userId),
-            eq(galleryReactions.type, reaction.type)
-          )
-        );
-    } else {
-      await db.insert(galleryReactions).values(reaction);
-    }
   }
 
   async getSocialLinks(): Promise<SocialLink[]> {

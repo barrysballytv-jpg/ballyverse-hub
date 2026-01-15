@@ -32,36 +32,6 @@ export async function registerRoutes(
     res.json(items);
   });
 
-  app.get("/api/gallery/:id/comments", async (req, res) => {
-    const comments = await storage.getCommentsByGalleryItem(parseInt(req.params.id));
-    res.json(comments);
-  });
-
-  app.post("/api/gallery/:id/comments", async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const comment = await storage.createComment({
-      galleryItemId: parseInt(req.params.id),
-      userId: req.user!.id,
-      content: req.body.content,
-    });
-    res.json(comment);
-  });
-
-  app.get("/api/gallery/:id/reactions", async (req, res) => {
-    const reactions = await storage.getReactionsByGalleryItem(parseInt(req.params.id));
-    res.json(reactions);
-  });
-
-  app.post("/api/gallery/:id/reactions", async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    await storage.toggleReaction({
-      galleryItemId: parseInt(req.params.id),
-      userId: req.user!.id,
-      type: req.body.type,
-    });
-    res.sendStatus(200);
-  });
-
   app.get(api.socials.list.path, async (req, res) => {
     const items = await storage.getSocialLinks();
     res.json(items);
@@ -104,43 +74,6 @@ export async function registerRoutes(
 }
 
 async function seedDatabase() {
-  const galleryItems = await storage.getGalleryItems();
-  if (galleryItems.length === 0) {
-    // Best Moments & Win Streaks (Logos/Banners)
-    await storage.createGalleryItem({
-      title: "BuG Official Banner",
-      type: "image",
-      url: "/attached_assets/IMG_3758_1768470082283.jpeg",
-      category: "streaks"
-    });
-    await storage.createGalleryItem({
-      title: "Gang Logo Elite",
-      type: "image",
-      url: "/attached_assets/IMG_3759_1768470082283.jpeg",
-      category: "streaks"
-    });
-    await storage.createGalleryItem({
-      title: "Victory Banner",
-      type: "image",
-      url: "/attached_assets/IMG_3806_1768470082283.jpeg",
-      category: "streaks"
-    });
-    await storage.createGalleryItem({
-      title: "Elite Member Profile",
-      type: "image",
-      url: "/attached_assets/IMG_3811_1768470082283.jpeg",
-      category: "streaks"
-    });
-
-    // Best FC Moments (Football Club)
-    await storage.createGalleryItem({
-      title: "FC Championship Win",
-      type: "video",
-      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Placeholder video
-      category: "fc_moments"
-    });
-  }
-
   const socials = await storage.getSocialLinks();
   if (socials.length === 0) {
     await storage.createSocialLink({ platform: "Instagram", url: "https://www.instagram.com/bally_upgang?igsh=Z2dobTk3aHVzcXox" });
