@@ -1,9 +1,11 @@
 import type { Express } from "express";
+import express from "express";
 import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { z } from "zod";
+import path from "path";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -11,6 +13,9 @@ export async function registerRoutes(
 ): Promise<Server> {
   await setupAuth(app);
   registerAuthRoutes(app);
+
+  // Serve attached assets
+  app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "../attached_assets")));
 
   app.get(api.merchandise.list.path, async (req, res) => {
     const items = await storage.getMerchandise();
