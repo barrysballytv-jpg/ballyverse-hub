@@ -17,11 +17,12 @@ export default function Gallery() {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     "Best Moments": false,
     "Best FC Moments": false,
+    "Best Call of Duty Moments": false,
     "Winstreaks": false,
     "Community Logos": false,
   });
 
-  const categories = ["Best Moments", "Best FC Moments", "Community Logos", "Winstreaks"];
+  const categories = ["Best Moments", "Best FC Moments", "Best Call of Duty Moments", "Community Logos", "Winstreaks"];
 
   const toggleCategory = (category: string) => {
     setOpenCategories(prev => ({
@@ -194,6 +195,7 @@ function CreateGalleryDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                 <SelectContent>
                   <SelectItem value="Best Moments">Best Moments</SelectItem>
                   <SelectItem value="Best FC Moments">Best FC Moments</SelectItem>
+                  <SelectItem value="Best Call of Duty Moments">Best Call of Duty Moments</SelectItem>
                   <SelectItem value="Community Logos">Community Logos</SelectItem>
                   <SelectItem value="Winstreaks">Winstreaks</SelectItem>
                 </SelectContent>

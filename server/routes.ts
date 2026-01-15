@@ -109,6 +109,10 @@ async function seedDatabase() {
     await storage.createGalleryItem({ title: "Bally Up Gang Elite FC Moment", type: "video", url: "https://youtu.be/vlrJr8SFZ64?si=UYksVcjhR7oBfwhv", category: "Best FC Moments" });
     await storage.createGalleryItem({ title: "Squad Victory", type: "image", url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800", category: "Best FC Moments" });
 
+    // Best Call of Duty Moments
+    await storage.createGalleryItem({ title: "COD Warzone Clutch", type: "video", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", category: "Best Call of Duty Moments" });
+    await storage.createGalleryItem({ title: "Quickscope Montage", type: "image", url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800", category: "Best Call of Duty Moments" });
+
     // Community Logos
     await storage.createGalleryItem({ title: "Bally Up Gang Crown Logo", type: "image", url: "/attached_assets/IMG_3811_1768470082283.jpeg", category: "Community Logos" });
     await storage.createGalleryItem({ title: "Street Style Branding", type: "image", url: "/attached_assets/IMG_3806_1768470082283.jpeg", category: "Community Logos" });
