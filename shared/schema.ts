@@ -45,6 +45,7 @@ export const gallery = pgTable("gallery", {
   title: text("title").notNull(),
   type: text("type").notNull(), // 'image' or 'video'
   url: text("url").notNull(),
+  category: text("category").default("general"), // 'general', 'streaks', 'fc_moments'
 });
 
 export const socialLinks = pgTable("social_links", {

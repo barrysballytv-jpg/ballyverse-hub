@@ -85,7 +85,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createGalleryItem(item: InsertGalleryItem): Promise<GalleryItem> {
-    const [newItem] = await db.insert(gallery).from(gallery).values(item).returning();
+    const [newItem] = await db.insert(gallery).values(item).returning();
     return newItem;
   }
 

@@ -74,6 +74,43 @@ export async function registerRoutes(
 }
 
 async function seedDatabase() {
+  const galleryItems = await storage.getGalleryItems();
+  if (galleryItems.length === 0) {
+    // Best Moments & Win Streaks (Logos/Banners)
+    await storage.createGalleryItem({
+      title: "BuG Official Banner",
+      type: "image",
+      url: "/attached_assets/IMG_3758_1768470082283.jpeg",
+      category: "streaks"
+    });
+    await storage.createGalleryItem({
+      title: "Gang Logo Elite",
+      type: "image",
+      url: "/attached_assets/IMG_3759_1768470082283.jpeg",
+      category: "streaks"
+    });
+    await storage.createGalleryItem({
+      title: "Victory Banner",
+      type: "image",
+      url: "/attached_assets/IMG_3806_1768470082283.jpeg",
+      category: "streaks"
+    });
+    await storage.createGalleryItem({
+      title: "Elite Member Profile",
+      type: "image",
+      url: "/attached_assets/IMG_3811_1768470082283.jpeg",
+      category: "streaks"
+    });
+
+    // Best FC Moments (Football Club)
+    await storage.createGalleryItem({
+      title: "FC Championship Win",
+      type: "video",
+      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Placeholder video
+      category: "fc_moments"
+    });
+  }
+
   const socials = await storage.getSocialLinks();
   if (socials.length === 0) {
     await storage.createSocialLink({ platform: "Instagram", url: "https://www.instagram.com/bally_upgang?igsh=Z2dobTk3aHVzcXox" });
