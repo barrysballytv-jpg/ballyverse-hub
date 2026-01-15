@@ -14,6 +14,8 @@ export default function Gallery() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
+  const categories = ["Best Moments", "Best FC Moments", "Winstreaks"];
+
   return (
     <div className="min-h-screen pt-32 pb-20 px-4">
       <div className="max-w-7xl mx-auto">
@@ -33,44 +35,53 @@ export default function Gallery() {
             <Loader2 className="w-12 h-12 text-accent animate-spin" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {items?.map((item) => (
-              <NeonCard key={item.id} variant="primary" className="p-0 overflow-hidden group border-0 bg-black">
-                <div className="relative aspect-video">
-                  {item.type === 'video' ? (
-                    <>
-                      {/* Simple video embed or link preview */}
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10">
-                        <Play className="w-12 h-12 text-white opacity-80 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <img 
-                        src={`https://img.youtube.com/vi/${getYouTubeId(item.url)}/hqdefault.jpg`} 
-                        alt={item.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          // Fallback if not youtube or error
-                          e.currentTarget.src = "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop";
-                        }}
-                      />
-                    </>
-                  ) : (
-                    <img 
-                      src={item.url} 
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                    />
-                  )}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-20">
-                    <h3 className="text-white font-display text-lg drop-shadow-md">{item.title}</h3>
+          <div className="space-y-16">
+            {categories.map((category) => {
+              const categoryItems = items?.filter(item => item.category === category) || [];
+              if (categoryItems.length === 0) return null;
+
+              return (
+                <div key={category} className="space-y-8">
+                  <h2 className="text-2xl font-display text-accent border-l-4 border-accent pl-4 uppercase tracking-widest">{category}</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {categoryItems.map((item) => (
+                      <NeonCard key={item.id} variant="primary" className="p-0 overflow-hidden group border-0 bg-black">
+                        <div className="relative aspect-video">
+                          {item.type === 'video' ? (
+                            <>
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10">
+                                <Play className="w-12 h-12 text-white opacity-80 group-hover:scale-110 transition-transform" />
+                              </div>
+                              <img 
+                                src={`https://img.youtube.com/vi/${getYouTubeId(item.url)}/hqdefault.jpg`} 
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.src = "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop";
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <img 
+                              src={item.url} 
+                              alt={item.title}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                            />
+                          )}
+                          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-20">
+                            <h3 className="text-white font-display text-lg drop-shadow-md">{item.title}</h3>
+                          </div>
+                        </div>
+                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-30" />
+                      </NeonCard>
+                    ))}
                   </div>
                 </div>
-                {/* Clicking usually would open lightbox, for now just links to source */}
-                <a href={item.url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-30" />
-              </NeonCard>
-            ))}
+              );
+            })}
 
             {(!items || items.length === 0) && (
-              <div className="col-span-full text-center py-20 text-muted-foreground font-mono">
+              <div className="text-center py-20 text-muted-foreground font-mono">
                 GALLERY EMPTY. UPLOAD SOMETHING.
               </div>
             )}
@@ -91,6 +102,7 @@ function CreateGalleryDialog({ open, onOpenChange }: { open: boolean; onOpenChan
   const { mutate, isPending } = useCreateGalleryItem();
   const { toast } = useToast();
   const [type, setType] = useState("image");
+  const [category, setCategory] = useState("Best Moments");
   
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,6 +112,7 @@ function CreateGalleryDialog({ open, onOpenChange }: { open: boolean; onOpenChan
       title: formData.get("title") as string,
       url: formData.get("url") as string,
       type: type,
+      category: category,
     }, {
       onSuccess: () => {
         toast({ title: "Success", description: "Item added to gallery!" });
@@ -123,17 +136,32 @@ function CreateGalleryDialog({ open, onOpenChange }: { open: boolean; onOpenChan
           <DialogTitle className="font-display text-accent">Add To Gallery</DialogTitle>
         </DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4 mt-4">
-          <div className="space-y-2">
-            <Label>Media Type</Label>
-            <Select value={type} onValueChange={setType}>
-              <SelectTrigger className="bg-black/50 border-white/10">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="image">Image URL</SelectItem>
-                <SelectItem value="video">Video URL (YouTube)</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Media Type</Label>
+              <Select value={type} onValueChange={setType}>
+                <SelectTrigger className="bg-black/50 border-white/10">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="image">Image URL</SelectItem>
+                  <SelectItem value="video">Video URL (YouTube)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Category</Label>
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger className="bg-black/50 border-white/10">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Best Moments">Best Moments</SelectItem>
+                  <SelectItem value="Best FC Moments">Best FC Moments</SelectItem>
+                  <SelectItem value="Winstreaks">Winstreaks</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div className="space-y-2">

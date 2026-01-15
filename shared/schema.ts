@@ -44,6 +44,7 @@ export const gallery = pgTable("gallery", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   type: text("type").notNull(), // 'image' or 'video'
+  category: text("category").notNull().default("Best Moments"), // 'Best Moments', 'Best FC Moments', 'Winstreaks'
   url: text("url").notNull(),
 });
 
