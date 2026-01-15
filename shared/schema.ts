@@ -48,6 +48,29 @@ export const gallery = pgTable("gallery", {
   category: text("category").default("general"), // 'general', 'streaks', 'fc_moments'
 });
 
+export const galleryComments = pgTable("gallery_comments", {
+  id: serial("id").primaryKey(),
+  galleryItemId: integer("gallery_item_id").references(() => gallery.id).notNull(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const galleryReactions = pgTable("gallery_reactions", {
+  id: serial("id").primaryKey(),
+  galleryItemId: integer("gallery_item_id").references(() => gallery.id).notNull(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  type: text("type").notNull(), // 'like', 'fire', 'heart', etc.
+});
+
+export const insertGalleryCommentSchema = createInsertSchema(galleryComments).omit({ id: true, createdAt: true });
+export const insertGalleryReactionSchema = createInsertSchema(galleryReactions).omit({ id: true });
+
+export type GalleryComment = typeof galleryComments.$inferSelect;
+export type InsertGalleryComment = z.infer<typeof insertGalleryCommentSchema>;
+export type GalleryReaction = typeof galleryReactions.$inferSelect;
+export type InsertGalleryReaction = z.infer<typeof insertGalleryReactionSchema>;
+
 export const socialLinks = pgTable("social_links", {
   id: serial("id").primaryKey(),
   platform: text("platform").notNull(), 

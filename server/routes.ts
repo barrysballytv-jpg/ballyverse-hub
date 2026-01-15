@@ -32,6 +32,36 @@ export async function registerRoutes(
     res.json(items);
   });
 
+  app.get("/api/gallery/:id/comments", async (req, res) => {
+    const comments = await storage.getCommentsByGalleryItem(parseInt(req.params.id));
+    res.json(comments);
+  });
+
+  app.post("/api/gallery/:id/comments", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    const comment = await storage.createComment({
+      galleryItemId: parseInt(req.params.id),
+      userId: req.user!.id,
+      content: req.body.content,
+    });
+    res.json(comment);
+  });
+
+  app.get("/api/gallery/:id/reactions", async (req, res) => {
+    const reactions = await storage.getReactionsByGalleryItem(parseInt(req.params.id));
+    res.json(reactions);
+  });
+
+  app.post("/api/gallery/:id/reactions", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    await storage.toggleReaction({
+      galleryItemId: parseInt(req.params.id),
+      userId: req.user!.id,
+      type: req.body.type,
+    });
+    res.sendStatus(200);
+  });
+
   app.get(api.socials.list.path, async (req, res) => {
     const items = await storage.getSocialLinks();
     res.json(items);
