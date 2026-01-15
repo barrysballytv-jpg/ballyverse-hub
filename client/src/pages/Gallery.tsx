@@ -1,16 +1,5 @@
 import { useGallery, useCreateGalleryItem } from "@/hooks/use-data";
 import { NeonCard } from "@/components/NeonCard";
-import { Plus, Loader2, Play, Image as ImageIcon } from "lucide-react";
-import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/use-auth";
-
-import { useGallery, useCreateGalleryItem } from "@/hooks/use-data";
-import { NeonCard } from "@/components/NeonCard";
 import { Plus, Loader2, Play, ChevronDown, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -205,6 +194,7 @@ function CreateGalleryDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                 <SelectContent>
                   <SelectItem value="Best Moments">Best Moments</SelectItem>
                   <SelectItem value="Best FC Moments">Best FC Moments</SelectItem>
+                  <SelectItem value="Community Logos">Community Logos</SelectItem>
                   <SelectItem value="Winstreaks">Winstreaks</SelectItem>
                 </SelectContent>
               </Select>
