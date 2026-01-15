@@ -77,6 +77,7 @@ async function seedDatabase() {
   const socials = await storage.getSocialLinks();
   if (socials.length === 0) {
     await storage.createSocialLink({ platform: "Instagram", url: "https://www.instagram.com/bally_upgang?igsh=Z2dobTk3aHVzcXox" });
+    await storage.createSocialLink({ platform: "YouTube", url: "https://youtube.com/@BALLYUPGANGBuG" });
     await storage.createSocialLink({ platform: "TikTok", url: "https://www.tiktok.com/@bally_up_gang?_r=1&_t=ZS-92yvkx2TrxV" });
   }
 
@@ -95,6 +96,21 @@ async function seedDatabase() {
       imageUrl: "https://placehold.co/600x400/000000/D4AF37?text=Gold+BuG+Hoodie",
       buyLink: "#"
     });
+  }
+
+  const galleryItems = await storage.getGalleryItems();
+  if (galleryItems.length === 0) {
+    // Best Moments
+    await storage.createGalleryItem({ title: "GTA RP High Speed Chase", type: "video", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", category: "Best Moments" });
+    await storage.createGalleryItem({ title: "Bally Up Gang Meetup", type: "image", url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800", category: "Best Moments" });
+    
+    // Best FC Moments
+    await storage.createGalleryItem({ title: "FC 24 Insane Goal", type: "video", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", category: "Best FC Moments" });
+    await storage.createGalleryItem({ title: "Squad Victory", type: "image", url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800", category: "Best FC Moments" });
+
+    // Winstreaks
+    await storage.createGalleryItem({ title: "10 Game Winstreak", type: "image", url: "https://images.unsplash.com/photo-1533134486753-c81769d9607b?w=800", category: "Winstreaks" });
+    await storage.createGalleryItem({ title: "The Champion Era", type: "video", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", category: "Winstreaks" });
   }
 
   const streams = await storage.getStreams();
