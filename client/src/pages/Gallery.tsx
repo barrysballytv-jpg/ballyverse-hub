@@ -9,12 +9,37 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 
+import { useGallery, useCreateGalleryItem } from "@/hooks/use-data";
+import { NeonCard } from "@/components/NeonCard";
+import { Plus, Loader2, Play, ChevronDown, ChevronRight, Image as ImageIcon } from "lucide-react";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+
 export default function Gallery() {
   const { data: items, isLoading } = useGallery();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
+    "Best Moments": true,
+    "Best FC Moments": true,
+    "Winstreaks": true,
+    "Community Logos": false,
+  });
 
   const categories = ["Best Moments", "Best FC Moments", "Community Logos", "Winstreaks"];
+
+  const toggleCategory = (category: string) => {
+    setOpenCategories(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  };
 
   return (
     <div className="min-h-screen pt-32 pb-20 px-4">
@@ -35,48 +60,70 @@ export default function Gallery() {
             <Loader2 className="w-12 h-12 text-accent animate-spin" />
           </div>
         ) : (
-          <div className="space-y-16">
+          <div className="space-y-12">
             {categories.map((category) => {
               const categoryItems = items?.filter(item => item.category === category) || [];
               if (categoryItems.length === 0) return null;
 
+              const isCategoryOpen = openCategories[category];
+
               return (
-                <div key={category} className="space-y-8">
-                  <h2 className="text-2xl font-display text-accent border-l-4 border-accent pl-4 uppercase tracking-widest">{category}</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {categoryItems.map((item) => (
-                      <NeonCard key={item.id} variant="primary" className="p-0 overflow-hidden group border-0 bg-black">
-                        <div className="relative aspect-video">
-                          {item.type === 'video' ? (
-                            <>
-                              <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10">
-                                <Play className="w-12 h-12 text-white opacity-80 group-hover:scale-110 transition-transform" />
-                              </div>
+                <Collapsible 
+                  key={category} 
+                  open={isCategoryOpen} 
+                  onOpenChange={() => toggleCategory(category)}
+                  className="space-y-6"
+                >
+                  <CollapsibleTrigger className="flex items-center gap-4 w-full group">
+                    <div className="flex items-center gap-4 border-l-4 border-accent pl-4">
+                      <h2 className="text-2xl font-display text-accent uppercase tracking-widest group-hover:text-white transition-colors">
+                        {category}
+                      </h2>
+                      {isCategoryOpen ? (
+                        <ChevronDown className="w-6 h-6 text-accent group-hover:text-white transition-colors" />
+                      ) : (
+                        <ChevronRight className="w-6 h-6 text-accent group-hover:text-white transition-colors" />
+                      )}
+                    </div>
+                    <div className="flex-1 h-px bg-white/10" />
+                  </CollapsibleTrigger>
+                  
+                  <CollapsibleContent className="animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {categoryItems.map((item) => (
+                        <NeonCard key={item.id} variant="primary" className="p-0 overflow-hidden group border-0 bg-black">
+                          <div className="relative aspect-video">
+                            {item.type === 'video' ? (
+                              <>
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors z-10">
+                                  <Play className="w-12 h-12 text-white opacity-80 group-hover:scale-110 transition-transform" />
+                                </div>
+                                <img 
+                                  src={`https://img.youtube.com/vi/${getYouTubeId(item.url)}/hqdefault.jpg`} 
+                                  alt={item.title}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.src = "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop";
+                                  }}
+                                />
+                              </>
+                            ) : (
                               <img 
-                                src={`https://img.youtube.com/vi/${getYouTubeId(item.url)}/hqdefault.jpg`} 
+                                src={item.url} 
                                 alt={item.title}
-                                className="w-full h-full object-cover"
-                                onError={(e) => {
-                                  e.currentTarget.src = "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop";
-                                }}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                               />
-                            </>
-                          ) : (
-                            <img 
-                              src={item.url} 
-                              alt={item.title}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                            />
-                          )}
-                          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-20">
-                            <h3 className="text-white font-display text-lg drop-shadow-md">{item.title}</h3>
+                            )}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent z-20">
+                              <h3 className="text-white font-display text-lg drop-shadow-md">{item.title}</h3>
+                            </div>
                           </div>
-                        </div>
-                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-30" />
-                      </NeonCard>
-                    ))}
-                  </div>
-                </div>
+                          <a href={item.url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-30" />
+                        </NeonCard>
+                      ))}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               );
             })}
 
