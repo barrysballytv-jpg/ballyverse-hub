@@ -106,6 +106,7 @@ async function seedDatabase() {
     
     // Best FC Moments
     await storage.createGalleryItem({ title: "FC 24 Insane Goal", type: "video", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", category: "Best FC Moments" });
+    await storage.createGalleryItem({ title: "Bally Up Gang Elite FC Moment", type: "video", url: "https://youtu.be/vlrJr8SFZ64?si=UYksVcjhR7oBfwhv", category: "Best FC Moments" });
     await storage.createGalleryItem({ title: "Squad Victory", type: "image", url: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800", category: "Best FC Moments" });
 
     // Winstreaks
