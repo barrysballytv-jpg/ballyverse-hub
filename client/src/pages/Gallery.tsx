@@ -15,9 +15,9 @@ export default function Gallery() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
-    "Best Moments": true,
-    "Best FC Moments": true,
-    "Winstreaks": true,
+    "Best Moments": false,
+    "Best FC Moments": false,
+    "Winstreaks": false,
     "Community Logos": false,
   });
 
