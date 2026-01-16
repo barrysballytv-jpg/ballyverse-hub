@@ -39,7 +39,7 @@ export default function Home() {
                   Shop Merch
                 </button>
               </Link>
-              <a href="https://discord.gg" target="_blank" rel="noopener noreferrer">
+              <a href="https://discord.gg/yq8kFPcHc" target="_blank" rel="noopener noreferrer">
                 <button className="px-8 py-4 bg-transparent border-2 border-secondary text-secondary font-display text-lg uppercase tracking-wider hover:bg-secondary hover:text-black hover:shadow-[0_0_30px_rgba(0,255,128,0.5)] transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
                   <Gamepad2 className="w-5 h-5" />
                   Join Discord
@@ -87,7 +87,7 @@ export default function Home() {
                 <p className="text-muted-foreground mb-6">
                   A safe space for streamers to grow, gamers to connect, and friends to chill.
                 </p>
-                <a href="https://discord.gg" target="_blank" className="inline-flex items-center text-secondary hover:text-white font-display text-sm uppercase cursor-pointer">
+                <a href="https://discord.gg/yq8kFPcHc" target="_blank" className="inline-flex items-center text-secondary hover:text-white font-display text-sm uppercase cursor-pointer">
                   Join The Gang <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
               </NeonCard>
