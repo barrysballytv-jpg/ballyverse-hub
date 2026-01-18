@@ -91,8 +91,8 @@ async function seedDatabase() {
   if (merch.length === 0) {
     await storage.createMerchandise({
       name: "BuG Black & White Hoodie",
-      description: "Premium split-design hoodie with bold Bally Up Gang branding.",
-      price: 5999,
+      description: "COMING SOON: Premium split-design hoodie with bold Bally Up Gang branding.",
+      price: 0,
       imageUrl: "/attached_assets/IMG_4100_1768734433818.png",
       buyLink: "#"
     });
