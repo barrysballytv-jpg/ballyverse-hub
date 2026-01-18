@@ -55,41 +55,57 @@ export default function Merchandise() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Real Items from DB */}
-            {items?.map((item) => (
-              <NeonCard key={item.id} variant="accent" className="flex flex-col h-full group">
-                <div className="relative aspect-square mb-6 overflow-hidden bg-black/50 border border-white/5">
-                  <img 
-                    src={item.imageUrl} 
-                    alt={item.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                  />
-                  <div className="absolute top-4 right-4 bg-black/80 backdrop-blur px-3 py-1 text-white font-mono border border-accent">
-                    ${(item.price / 100).toFixed(2)}
+            {items?.map((item) => {
+              const isComingSoon = item.price === 0;
+              return (
+                <NeonCard key={item.id} variant={isComingSoon ? "primary" : "accent"} className={`flex flex-col h-full group ${isComingSoon ? "opacity-80 hover:opacity-100 transition-opacity" : ""}`}>
+                  <div className="relative aspect-square mb-6 overflow-hidden bg-black/50 border border-white/5">
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.name}
+                      className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isComingSoon ? "grayscale group-hover:grayscale-0" : ""}`} 
+                    />
+                    {!isComingSoon && (
+                      <div className="absolute top-4 right-4 bg-black/80 backdrop-blur px-3 py-1 text-white font-mono border border-accent">
+                        ${(item.price / 100).toFixed(2)}
+                      </div>
+                    )}
+                    {isComingSoon && (
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <span className="bg-primary text-black px-4 py-2 font-display text-xl uppercase tracking-tighter -rotate-12 border-2 border-black shadow-xl">
+                          Coming Soon
+                        </span>
+                      </div>
+                    )}
                   </div>
-                </div>
-                
-                <h3 className="text-2xl text-white font-display mb-2">{item.name}</h3>
-                <p className="text-muted-foreground text-sm flex-grow mb-6 line-clamp-3">
-                  {item.description}
-                </p>
-                
-                {item.buyLink ? (
-                  <a 
-                    href={item.buyLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-full py-3 bg-accent text-white font-display uppercase tracking-wider text-center hover:bg-white hover:text-accent transition-colors flex items-center justify-center gap-2"
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                    Buy Now
-                  </a>
-                ) : (
-                  <button disabled className="w-full py-3 bg-white/5 text-muted-foreground font-display uppercase tracking-wider cursor-not-allowed">
-                    Sold Out
-                  </button>
-                )}
-              </NeonCard>
-            ))}
+                  
+                  <h3 className="text-2xl text-white font-display mb-2">{item.name}</h3>
+                  <p className="text-muted-foreground text-sm flex-grow mb-6 line-clamp-3">
+                    {item.description}
+                  </p>
+                  
+                  {isComingSoon ? (
+                    <button disabled className="w-full py-3 bg-primary/20 text-primary border border-primary/50 font-display uppercase tracking-wider cursor-not-allowed">
+                      Coming Soon
+                    </button>
+                  ) : item.buyLink ? (
+                    <a 
+                      href={item.buyLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="w-full py-3 bg-accent text-white font-display uppercase tracking-wider text-center hover:bg-white hover:text-accent transition-colors flex items-center justify-center gap-2"
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                      Buy Now
+                    </a>
+                  ) : (
+                    <button disabled className="w-full py-3 bg-white/5 text-muted-foreground font-display uppercase tracking-wider cursor-not-allowed">
+                      Sold Out
+                    </button>
+                  )}
+                </NeonCard>
+              );
+            })}
 
             {/* Coming Soon Items */}
             {COMING_SOON_ITEMS.map((item) => (
