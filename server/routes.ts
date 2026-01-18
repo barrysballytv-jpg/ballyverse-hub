@@ -90,10 +90,10 @@ async function seedDatabase() {
   const merch = await storage.getMerchandise();
   if (merch.length === 0) {
     await storage.createMerchandise({
-      name: "BuG Gold Edition Hoodie",
-      description: "Premium black hoodie with gold embroidery.",
+      name: "BuG Black & White Hoodie",
+      description: "Premium split-design hoodie with bold Bally Up Gang branding.",
       price: 5999,
-      imageUrl: "https://placehold.co/600x400/000000/D4AF37?text=Gold+BuG+Hoodie",
+      imageUrl: "/attached_assets/IMG_4100_1768734433818.png",
       buyLink: "#"
     });
   }
