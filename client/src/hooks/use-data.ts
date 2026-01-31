@@ -99,3 +99,15 @@ export function useSocials() {
     },
   });
 }
+
+// ================= TEAM MEMBERS =================
+export function useTeamMembers() {
+  return useQuery({
+    queryKey: [api.teams.list.path],
+    queryFn: async () => {
+      const res = await fetch(api.teams.list.path);
+      if (!res.ok) throw new Error("Failed to fetch team members");
+      return api.teams.list.responses[200].parse(await res.json());
+    },
+  });
+}
