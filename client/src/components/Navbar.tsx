@@ -18,6 +18,7 @@ const navItems = [
   { label: "Events", href: "/events" },
   { label: "Gallery", href: "/gallery" },
   { label: "Rules", href: "/rules" },
+  { label: "Meet the Team", href: "/team" },
 ];
 
 function AboutDialog() {

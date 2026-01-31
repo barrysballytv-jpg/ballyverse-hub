@@ -113,6 +113,11 @@ export default function Home() {
               </NeonCard>
             </motion.div>
 
+            <Link href="/team">
+              <button className="px-8 py-4 bg-primary text-black font-display text-xl uppercase tracking-tighter hover:bg-white hover:text-primary transition-all duration-300 border-2 border-black shadow-[0_0_20px_rgba(var(--primary),0.5)]">
+                Meet the Team
+              </button>
+            </Link>
           </div>
         </div>
       </section>

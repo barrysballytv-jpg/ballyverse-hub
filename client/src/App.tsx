@@ -13,6 +13,7 @@ import Merchandise from "@/pages/Merchandise";
 import Events from "@/pages/Events";
 import Gallery from "@/pages/Gallery";
 import Rules from "@/pages/Rules";
+import Team from "@/pages/Team";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/events" component={Events} />
       <Route path="/gallery" component={Gallery} />
       <Route path="/rules" component={Rules} />
+      <Route path="/team" component={Team} />
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={TermsOfService} />
       {/* Fallback to 404 */}
