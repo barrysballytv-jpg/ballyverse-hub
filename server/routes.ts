@@ -83,7 +83,13 @@ async function seedDatabase() {
 
   const members = await storage.getTeamMembers();
   if (members.length === 0) {
-    await storage.createTeamMember({ name: "Founder Name", role: "Founder", bio: "Leading the BALLY UP GANG.", isVip: false });
+    await storage.createTeamMember({ 
+      name: "BARRY IN A BALLY", 
+      role: "Founder", 
+      bio: "Leading the BALLY UP GANG movement. Equality for all, armor for the introverts.", 
+      isVip: false,
+      avatarUrl: "/attached_assets/IMG_3166_1769858281675.jpeg"
+    });
     await storage.createTeamMember({ name: "VIP Supporter", role: "Elite Supporter", bio: "Legendary BuG member.", isVip: true });
   }
 
