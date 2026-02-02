@@ -6,7 +6,17 @@ import { Loader2, ShieldCheck, Star } from "lucide-react";
 export default function Team() {
   const { data: members, isLoading } = useTeamMembers();
 
-  const admins = members?.filter(m => !m.isVip) || [];
+  const ceos = members?.filter(m => m.role.toLowerCase().includes('ceo')) || [];
+  const coos = members?.filter(m => m.role.toLowerCase() === 'coo') || [];
+  const presidents = members?.filter(m => m.role.toLowerCase() === 'president') || [];
+  const svps = members?.filter(m => m.role.toLowerCase().includes('senior vice president') || m.role.toLowerCase() === 'svp') || [];
+  const otherAdmins = members?.filter(m => !m.isVip && 
+    !m.role.toLowerCase().includes('ceo') && 
+    m.role.toLowerCase() !== 'coo' && 
+    m.role.toLowerCase() !== 'president' && 
+    !m.role.toLowerCase().includes('senior vice president') && 
+    m.role.toLowerCase() !== 'svp'
+  ) || [];
   const vips = members?.filter(m => m.isVip) || [];
 
   return (
@@ -32,18 +42,77 @@ export default function Team() {
           </div>
         ) : (
           <div className="space-y-24">
-            {/* Admin Team */}
-            <section>
-              <div className="flex items-center gap-4 mb-10">
-                <ShieldCheck className="w-8 h-8 text-primary" />
-                <h2 className="text-3xl font-display text-white tracking-widest">ADMIN TEAM</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {admins.map((member) => (
-                  <TeamMemberCard key={member.id} member={member} variant="primary" />
-                ))}
-              </div>
-            </section>
+            {/* Executive Leadership */}
+            {ceos.length > 0 && (
+              <section>
+                <div className="flex items-center gap-4 mb-10">
+                  <ShieldCheck className="w-8 h-8 text-primary" />
+                  <h2 className="text-3xl font-display text-white tracking-widest">CHIEF EXECUTIVE OFFICER</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {ceos.map((member) => (
+                    <TeamMemberCard key={member.id} member={member} variant="primary" />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {coos.length > 0 && (
+              <section>
+                <div className="flex items-center gap-4 mb-10">
+                  <ShieldCheck className="w-8 h-8 text-primary" />
+                  <h2 className="text-3xl font-display text-white tracking-widest">CHIEF OPERATING OFFICER</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {coos.map((member) => (
+                    <TeamMemberCard key={member.id} member={member} variant="primary" />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {presidents.length > 0 && (
+              <section>
+                <div className="flex items-center gap-4 mb-10">
+                  <ShieldCheck className="w-8 h-8 text-primary" />
+                  <h2 className="text-3xl font-display text-white tracking-widest">PRESIDENT</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {presidents.map((member) => (
+                    <TeamMemberCard key={member.id} member={member} variant="primary" />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {svps.length > 0 && (
+              <section>
+                <div className="flex items-center gap-4 mb-10">
+                  <ShieldCheck className="w-8 h-8 text-primary" />
+                  <h2 className="text-3xl font-display text-white tracking-widest">SENIOR VICE PRESIDENT</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {svps.map((member) => (
+                    <TeamMemberCard key={member.id} member={member} variant="primary" />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Other Admins */}
+            {otherAdmins.length > 0 && (
+              <section>
+                <div className="flex items-center gap-4 mb-10">
+                  <ShieldCheck className="w-8 h-8 text-primary" />
+                  <h2 className="text-3xl font-display text-white tracking-widest">ADMIN TEAM</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {otherAdmins.map((member) => (
+                    <TeamMemberCard key={member.id} member={member} variant="primary" />
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* VIP Members */}
             <section>
