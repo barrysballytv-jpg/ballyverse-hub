@@ -85,12 +85,13 @@ async function seedDatabase() {
   if (members.length === 0) {
     await storage.createTeamMember({ 
       name: "BARRY IN A BALLY", 
-      role: "CEO & Founder", 
+      role: "Founder", 
       bio: "Leading the BALLY UP GANG movement. Equality for all, armor for the introverts.", 
       isVip: false,
       avatarUrl: "/attached_assets/IMG_3166_1769858281675.jpeg"
     });
-    await storage.createTeamMember({ name: "COO Name", role: "COO", bio: "Operational excellence within BuG.", isVip: false });
+    await storage.createTeamMember({ name: "CEO Name", role: "Chief Executive Officer", bio: "Executive leadership within BuG.", isVip: false });
+    await storage.createTeamMember({ name: "COO Name", role: "Chief Operating Officer", bio: "Operational excellence within BuG.", isVip: false });
     await storage.createTeamMember({ name: "President Name", role: "President", bio: "Strategic leadership for the gang.", isVip: false });
     await storage.createTeamMember({ name: "SVP Name", role: "Senior Vice President", bio: "Driving growth and community engagement.", isVip: false });
     await storage.createTeamMember({ name: "VIP Supporter", role: "Elite Supporter", bio: "Legendary BuG member.", isVip: true });

@@ -6,12 +6,17 @@ import { Loader2, ShieldCheck, Star } from "lucide-react";
 export default function Team() {
   const { data: members, isLoading } = useTeamMembers();
 
-  const ceos = members?.filter(m => m.role.toLowerCase().includes('ceo')) || [];
-  const coos = members?.filter(m => m.role.toLowerCase() === 'coo') || [];
+  const founders = members?.filter(m => m.role.toLowerCase() === 'founder') || [];
+  const ceos = members?.filter(m => m.role.toLowerCase() === 'chief executive officer' || m.role.toLowerCase() === 'ceo') || [];
+  const coos = members?.filter(m => m.role.toLowerCase() === 'chief operating officer' || m.role.toLowerCase() === 'coo') || [];
   const presidents = members?.filter(m => m.role.toLowerCase() === 'president') || [];
   const svps = members?.filter(m => m.role.toLowerCase().includes('senior vice president') || m.role.toLowerCase() === 'svp') || [];
+  
   const otherAdmins = members?.filter(m => !m.isVip && 
-    !m.role.toLowerCase().includes('ceo') && 
+    m.role.toLowerCase() !== 'founder' &&
+    m.role.toLowerCase() !== 'chief executive officer' && 
+    m.role.toLowerCase() !== 'ceo' && 
+    m.role.toLowerCase() !== 'chief operating officer' && 
     m.role.toLowerCase() !== 'coo' && 
     m.role.toLowerCase() !== 'president' && 
     !m.role.toLowerCase().includes('senior vice president') && 
@@ -42,7 +47,22 @@ export default function Team() {
           </div>
         ) : (
           <div className="space-y-24">
-            {/* Executive Leadership */}
+            {/* Founder */}
+            {founders.length > 0 && (
+              <section>
+                <div className="flex items-center gap-4 mb-10">
+                  <ShieldCheck className="w-8 h-8 text-primary" />
+                  <h2 className="text-3xl font-display text-white tracking-widest">FOUNDER</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {founders.map((member) => (
+                    <TeamMemberCard key={member.id} member={member} variant="primary" />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* CEO */}
             {ceos.length > 0 && (
               <section>
                 <div className="flex items-center gap-4 mb-10">
@@ -57,6 +77,7 @@ export default function Team() {
               </section>
             )}
 
+            {/* COO */}
             {coos.length > 0 && (
               <section>
                 <div className="flex items-center gap-4 mb-10">
@@ -71,6 +92,7 @@ export default function Team() {
               </section>
             )}
 
+            {/* President */}
             {presidents.length > 0 && (
               <section>
                 <div className="flex items-center gap-4 mb-10">
@@ -85,6 +107,7 @@ export default function Team() {
               </section>
             )}
 
+            {/* SVP */}
             {svps.length > 0 && (
               <section>
                 <div className="flex items-center gap-4 mb-10">
@@ -93,6 +116,21 @@ export default function Team() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {svps.map((member) => (
+                    <TeamMemberCard key={member.id} member={member} variant="primary" />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Other Admins */}
+            {otherAdmins.length > 0 && (
+              <section>
+                <div className="flex items-center gap-4 mb-10">
+                  <ShieldCheck className="w-8 h-8 text-primary" />
+                  <h2 className="text-3xl font-display text-white tracking-widest">ADMIN TEAM</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {otherAdmins.map((member) => (
                     <TeamMemberCard key={member.id} member={member} variant="primary" />
                   ))}
                 </div>
