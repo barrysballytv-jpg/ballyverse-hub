@@ -7,6 +7,16 @@ import NotFound from "@/pages/not-found";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
+// Pages
+import Home from "@/pages/Home";
+import Merchandise from "@/pages/Merchandise";
+import Events from "@/pages/Events";
+import Gallery from "@/pages/Gallery";
+import Rules from "@/pages/Rules";
+import Team from "@/pages/Team";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
+
 import { ThemeProvider } from "@/components/theme/theme-provider";
 
 function Router() {
