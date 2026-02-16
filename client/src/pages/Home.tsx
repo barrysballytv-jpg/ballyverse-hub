@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowRight, Sparkles, Gamepad2, ShoppingBag } from "lucide-react";
 import { NeonCard } from "@/components/NeonCard";
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   return (
@@ -133,6 +135,109 @@ export default function Home() {
         </div>
       </div>
 
+      {/* CLICKER MINI-GAME */}
+      <section className="py-24 relative z-10 bg-black/40">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-display text-primary mb-12 tracking-widest">
+              BuG CLICKER CHALLENGE
+            </h2>
+            
+            <ClickerGame />
+          </motion.div>
+        </div>
+      </section>
+
+    </div>
+  );
+}
+
+function ClickerGame() {
+  const [points, setPoints] = useState(0);
+  const [multiplier, setMultiplier] = useState(1);
+  const upgradeCost = multiplier * 100;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPoints((p) => p + 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleClick = () => {
+    setPoints((p) => p + multiplier);
+  };
+
+  const buyUpgrade = () => {
+    if (points >= upgradeCost) {
+      setPoints((p) => p - upgradeCost);
+      setMultiplier((m) => m * 2);
+    }
+  };
+
+  return (
+    <div className="bg-black/60 border-2 border-primary/20 p-8 md:p-12 rounded-lg shadow-[0_0_50px_rgba(255,215,0,0.1)] relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute -top-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-[80px]" />
+      <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-[80px]" />
+
+      <div className="relative z-10 flex flex-col items-center gap-8">
+        <div className="text-center">
+          <div className="text-6xl font-display text-white mb-2 tracking-tighter drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+            {points.toLocaleString()}
+          </div>
+          <div className="text-primary font-mono uppercase tracking-[0.3em] text-sm">
+            BuG Points
+          </div>
+        </div>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleClick}
+          className="relative group cursor-pointer"
+        >
+          <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/40 transition-colors" />
+          <div className="relative w-32 h-32 md:w-48 md:h-48 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center border-4 border-white/20 shadow-2xl overflow-hidden group-active:translate-y-1 transition-transform">
+            <Gamepad2 className="w-16 h-16 md:w-24 md:h-24 text-black drop-shadow-lg" />
+            <div className="absolute inset-0 scanlines opacity-30" />
+          </div>
+        </motion.button>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md">
+          <div className="bg-white/5 border border-white/10 p-4 rounded flex flex-col items-center justify-center">
+            <span className="text-muted-foreground text-xs uppercase font-mono mb-1">Click Power</span>
+            <span className="text-white font-display text-xl">x{multiplier}</span>
+          </div>
+          
+          <button
+            onClick={buyUpgrade}
+            disabled={points < upgradeCost}
+            className={cn(
+              "p-4 rounded border font-display uppercase text-sm transition-all flex flex-col items-center justify-center gap-1",
+              points >= upgradeCost 
+                ? "bg-secondary/20 border-secondary text-secondary hover:bg-secondary hover:text-black shadow-[0_0_15px_rgba(0,255,128,0.2)]" 
+                : "bg-white/5 border-white/10 text-muted-foreground cursor-not-allowed opacity-50"
+            )}
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              Upgrade
+            </div>
+            <span className="font-mono text-[10px] tracking-widest">
+              Cost: {upgradeCost}
+            </span>
+          </button>
+        </div>
+
+        <p className="text-muted-foreground text-[10px] font-mono uppercase tracking-widest animate-pulse mt-4">
+          Click the icon to earn points • Auto-earning: 1/sec
+        </p>
+      </div>
     </div>
   );
 }
