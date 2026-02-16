@@ -35,6 +35,28 @@
   --font-mono: 'Space Mono', monospace;
 }
 
+.light {
+  /* Goofy Theme Light Mode */
+  --background: 280 100% 90%;    /* Bright Purple-ish */
+  --foreground: 280 100% 10%;
+  
+  --primary: 340 100% 60%;      /* Hot Pink */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 190 100% 50%;    /* Cyan */
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 280 20% 95%;
+  --muted-foreground: 280 10% 40%;
+
+  --accent: 60 100% 50%;        /* Electric Yellow */
+  --accent-foreground: 0 0% 0%;
+
+  --border: 340 100% 80%;
+  --input: 340 100% 80%;
+  --ring: 340 100% 60%;
+}
+
 @layer base {
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-black;

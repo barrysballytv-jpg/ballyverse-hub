@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -96,6 +96,7 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
+            <ThemeToggle />
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <div 
@@ -133,6 +134,7 @@ export function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-4">
+            <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white hover:text-primary transition-colors"
