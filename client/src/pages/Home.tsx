@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowRight, Sparkles, Gamepad2, ShoppingBag } from "lucide-react";
+import { ArrowRight, Sparkles, Gamepad2, ShoppingBag, UserPlus } from "lucide-react";
 import { NeonCard } from "@/components/NeonCard";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Home() {
+  const { isAuthenticated, isLoading } = useAuth();
+
   return (
     <div className="min-h-screen pt-20">
       
@@ -121,6 +124,33 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {!isLoading && !isAuthenticated && (
+        <section className="py-16 relative z-10">
+          <div className="max-w-3xl mx-auto px-4 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="bg-card border border-primary/20 rounded-lg p-8 md:p-12">
+                <UserPlus className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h2 className="font-display text-3xl md:text-4xl text-white mb-4 tracking-wider">JOIN THE GANG</h2>
+                <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
+                  Sign in to save your game scores, pre-order exclusive merch, and access your personal dashboard.
+                </p>
+                <a
+                  href="/api/login"
+                  data-testid="link-signin-home"
+                  className="inline-block px-10 py-4 bg-primary text-black font-display text-lg uppercase tracking-wider hover:bg-white hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all"
+                >
+                  Sign In Now
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* BANNER IMAGE */}
       <div className="w-full h-64 md:h-96 relative overflow-hidden my-12">

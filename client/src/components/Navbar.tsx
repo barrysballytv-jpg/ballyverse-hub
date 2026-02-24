@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, X, Info, ChevronDown, Gamepad2 } from "lucide-react";
+import { Menu, X, Info, ChevronDown, Gamepad2, LayoutDashboard, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import {
@@ -148,25 +148,52 @@ export function Navbar() {
               </Link>
             ))}
             
+            <AboutDialog />
             {isAuthenticated ? (
-              <div className="flex items-center gap-4 ml-4">
-                <AboutDialog />
-                <button 
-                  onClick={() => logout()}
-                  className="px-4 py-2 bg-destructive/20 text-destructive border border-destructive hover:bg-destructive hover:text-white transition-all font-display text-xs uppercase"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-4 ml-4">
-                <AboutDialog />
-                <Link href="/api/login">
-                  <div className="px-4 py-2 bg-secondary/10 text-secondary border border-secondary hover:bg-secondary hover:text-black transition-all font-display text-xs uppercase cursor-pointer">
-                    Login
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center gap-2 cursor-pointer group ml-4" data-testid="button-user-menu">
+                    {user?.profileImageUrl ? (
+                      <img src={user.profileImageUrl} alt="Avatar" className="w-8 h-8 rounded-full border border-primary" />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full border border-primary bg-primary/20 flex items-center justify-center">
+                        <User className="w-4 h-4 text-primary" />
+                      </div>
+                    )}
+                    <span className="font-display text-sm text-white uppercase tracking-wider" data-testid="text-navbar-username">
+                      {user?.firstName || "Member"}
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground group-data-[state=open]:rotate-180 transition-transform" />
                   </div>
-                </Link>
-              </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-black/95 border-primary/20 text-white min-w-[180px]">
+                  <DropdownMenuLabel className="font-display text-xs uppercase tracking-widest text-primary/60 px-4 py-2">
+                    {user?.email}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-primary/10" />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 transition-colors focus:bg-primary/10 focus:text-white" data-testid="link-dashboard">
+                      <LayoutDashboard className="w-4 h-4 text-primary" />
+                      <span className="font-display text-sm uppercase tracking-wider">Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-primary/10" />
+                  <DropdownMenuItem
+                    onClick={() => logout()}
+                    className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-destructive/10 transition-colors text-destructive focus:bg-destructive/10 focus:text-destructive"
+                    data-testid="button-logout-nav"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="font-display text-sm uppercase tracking-wider">Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <a href="/api/login" className="ml-4" data-testid="link-login">
+                <div className="px-4 py-2 bg-primary/10 text-primary border border-primary hover:bg-primary hover:text-black transition-all font-display text-xs uppercase cursor-pointer">
+                  Sign In
+                </div>
+              </a>
             )}
           </div>
 
@@ -236,21 +263,34 @@ export function Navbar() {
               <AboutDialog />
             </div>
             {isAuthenticated ? (
-              <button 
-                onClick={() => { logout(); setIsOpen(false); }}
-                className="w-full text-left block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-destructive text-destructive hover:bg-destructive/10 transition-all"
-              >
-                Logout
-              </button>
+              <>
+                <Link href="/dashboard">
+                  <div
+                    className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-primary text-primary hover:bg-primary/10 transition-all cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                    data-testid="link-dashboard-mobile"
+                  >
+                    Dashboard
+                  </div>
+                </Link>
+                <button 
+                  onClick={() => { logout(); setIsOpen(false); }}
+                  className="w-full text-left block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-destructive text-destructive hover:bg-destructive/10 transition-all"
+                  data-testid="button-logout-mobile"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
-              <Link href="/api/login">
+              <a href="/api/login">
                 <div 
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-secondary text-secondary hover:bg-secondary/10 transition-all cursor-pointer"
+                  className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-primary text-primary hover:bg-primary/10 transition-all cursor-pointer"
+                  data-testid="link-login-mobile"
                 >
-                  Login
+                  Sign In
                 </div>
-              </Link>
+              </a>
             )}
           </div>
         </div>

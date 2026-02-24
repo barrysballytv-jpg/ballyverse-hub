@@ -3,7 +3,7 @@ import express from "express";
 import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
-import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
+import { setupAuth, registerAuthRoutes, isAuthenticated } from "./replit_integrations/auth";
 import { z } from "zod";
 import path from "path";
 
@@ -66,6 +66,51 @@ export async function registerRoutes(
       }
       throw err;
     }
+  });
+
+  app.post(api.scores.submit.path, isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const input = api.scores.submit.input.parse({ ...req.body, userId });
+      const score = await storage.createScore(input);
+      res.status(201).json(score);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: err.errors[0].message, field: err.errors[0].path.join('.') });
+      }
+      throw err;
+    }
+  });
+
+  app.get("/api/scores/leaderboard/:game", async (req, res) => {
+    const scores = await storage.getTopScores(req.params.game);
+    res.json(scores);
+  });
+
+  app.get(api.scores.user.path, isAuthenticated, async (req: any, res) => {
+    const userId = req.user.claims.sub;
+    const scores = await storage.getUserScores(userId);
+    res.json(scores);
+  });
+
+  app.post(api.preorders.create.path, isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const input = api.preorders.create.input.parse({ ...req.body, userId });
+      const preorder = await storage.createPreorder(input);
+      res.status(201).json(preorder);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: err.errors[0].message, field: err.errors[0].path.join('.') });
+      }
+      throw err;
+    }
+  });
+
+  app.get(api.preorders.user.path, isAuthenticated, async (req: any, res) => {
+    const userId = req.user.claims.sub;
+    const preorders = await storage.getUserPreorders(userId);
+    res.json(preorders);
   });
 
   seedDatabase();

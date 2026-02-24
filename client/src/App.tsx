@@ -18,6 +18,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import ClickerGame from "@/pages/games/ClickerGame";
 import PinballGame from "@/pages/games/PinballGame";
+import Dashboard from "@/pages/Dashboard";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/team" component={Team} />
       <Route path="/games/clicker" component={ClickerGame} />
       <Route path="/games/pinball" component={PinballGame} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={TermsOfService} />
       {/* Fallback to 404 */}
