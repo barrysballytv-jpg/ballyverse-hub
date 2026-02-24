@@ -1,8 +1,16 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, X, Info } from "lucide-react";
+import { Menu, X, Info, ChevronDown, Gamepad2 } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -26,7 +34,7 @@ function AboutDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-2">
+        <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-2 w-full md:w-auto">
           <Info className="w-4 h-4" />
           About
         </div>
@@ -98,6 +106,35 @@ export function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
             <ThemeToggle />
+            
+            {/* Games Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-1 group">
+                  Games
+                  <ChevronDown className="w-4 h-4 group-data-[state=open]:rotate-180 transition-transform" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-black/95 border-primary/20 text-white min-w-[200px]">
+                <DropdownMenuLabel className="font-display text-xs uppercase tracking-widest text-primary/60 px-4 py-2">
+                  Arcade
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-primary/10" />
+                <DropdownMenuItem asChild>
+                  <a href="/#clicker-game" className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 transition-colors focus:bg-primary/10 focus:text-white">
+                    <Gamepad2 className="w-4 h-4 text-primary" />
+                    <span className="font-display text-sm uppercase tracking-wider">Clicker Challenge</span>
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="/#pinball-game" className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-secondary/10 transition-colors focus:bg-secondary/10 focus:text-white">
+                    <Gamepad2 className="w-4 h-4 text-secondary" />
+                    <span className="font-display text-sm uppercase tracking-wider">Bally Bumper</span>
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <div 
@@ -148,8 +185,38 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-black/95 border-b border-primary/20 backdrop-blur-xl">
+        <div className="md:hidden bg-black/95 border-b border-primary/20 backdrop-blur-xl max-h-[90vh] overflow-y-auto">
           <div className="px-4 pt-2 pb-6 space-y-4">
+            
+            {/* Mobile Games Section */}
+            <div className="space-y-2 px-3 py-4">
+              <div className="font-display text-xs uppercase tracking-[0.2em] text-primary/60 mb-4 border-b border-primary/10 pb-2">
+                Arcade Games
+              </div>
+              <a 
+                href="/#clicker-game" 
+                className="flex items-center gap-4 py-3 text-muted-foreground hover:text-primary transition-all group"
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="w-10 h-10 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <Gamepad2 className="w-5 h-5 text-primary" />
+                </div>
+                <span className="font-display text-base uppercase tracking-widest">Clicker Challenge</span>
+              </a>
+              <a 
+                href="/#pinball-game" 
+                className="flex items-center gap-4 py-3 text-muted-foreground hover:text-secondary transition-all group"
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="w-10 h-10 rounded bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                  <Gamepad2 className="w-5 h-5 text-secondary" />
+                </div>
+                <span className="font-display text-base uppercase tracking-widest">Bally Bumper</span>
+              </a>
+            </div>
+
+            <div className="border-t border-white/5 pt-4" />
+
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <div 

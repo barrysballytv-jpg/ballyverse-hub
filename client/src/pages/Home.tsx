@@ -144,7 +144,7 @@ export default function Home() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-display text-primary mb-12 tracking-widest">
+            <h2 id="clicker-game" className="text-4xl md:text-5xl font-display text-primary mb-12 tracking-widest">
               BuG CLICKER CHALLENGE
             </h2>
             
@@ -166,7 +166,7 @@ export default function Home() {
           >
             <div className="inline-block mb-8 p-1 bg-gradient-to-r from-primary via-yellow-600 to-primary rounded-lg shadow-[0_0_30px_rgba(255,215,0,0.3)]">
               <div className="bg-black px-8 py-4 rounded-md border border-primary/30">
-                <h2 className="text-4xl md:text-6xl font-display text-primary tracking-[0.2em] drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]">
+                <h2 id="pinball-game" className="text-4xl md:text-6xl font-display text-primary tracking-[0.2em] drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]">
                   BALLY BUMPER MODE
                 </h2>
                 <p className="text-primary/60 font-mono text-xs uppercase tracking-widest mt-2">The Boss Mode Edition</p>
