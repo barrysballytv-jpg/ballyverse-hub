@@ -291,8 +291,8 @@ function PinballGame() {
     window.addEventListener('keyup', handleKeyUp);
 
     // Scoring
-    Events.on(engine, 'collisionStart', (event) => {
-      event.pairs.forEach((pair) => {
+    Events.on(engine, 'collisionStart', (event: any) => {
+      event.pairs.forEach((pair: any) => {
         if (pair.bodyA === bumper1 || pair.bodyB === bumper1 || 
             pair.bodyA === bumper2 || pair.bodyB === bumper2 ||
             pair.bodyA === bumper3 || pair.bodyB === bumper3) {
