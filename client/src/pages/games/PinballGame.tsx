@@ -95,40 +95,57 @@ export default function PinballGamePage() {
     const wallColor = "#5C3A1E";
     const wallRender = { fillStyle: wallColor, strokeStyle: "#8B6914", lineWidth: 2 };
 
+    const playAreaW = W - 50;
+    const chuteX = playAreaW + 5;
+    const chuteW = W - playAreaW - 16;
+
     const leftWall = Bodies.rectangle(8, H / 2, 16, H, { isStatic: true, render: wallRender });
     const rightWall = Bodies.rectangle(W - 8, H / 2, 16, H, { isStatic: true, render: wallRender });
     const topWall = Bodies.rectangle(W / 2, 8, W, 16, { isStatic: true, render: wallRender });
+    const chuteSepBottom = Bodies.rectangle(playAreaW, H / 2 + 100, 8, H - 200, {
+      isStatic: true, render: { fillStyle: "#654321", strokeStyle: "#8B6914", lineWidth: 1 },
+    });
+    const chuteTopBlock = Bodies.rectangle(W - 12, 60, 30, 8, {
+      isStatic: true, angle: -0.8, render: { fillStyle: "#654321", strokeStyle: "#8B6914", lineWidth: 1 },
+      friction: 0, restitution: 0.6,
+    });
+    const chuteTopBlock2 = Bodies.rectangle(playAreaW + 10, 90, 30, 8, {
+      isStatic: true, angle: -0.5, render: { fillStyle: "#654321", strokeStyle: "#8B6914", lineWidth: 1 },
+      friction: 0, restitution: 0.6,
+    });
 
     const drainY = H - 15;
-    const drainGapWidth = 120;
-    const leftDrainLen = (W - drainGapWidth) / 2;
-    const leftDrainWall = Bodies.rectangle(leftDrainLen / 2 + 16, drainY, leftDrainLen, 10, { isStatic: true, render: { fillStyle: "#333" } });
-    const rightDrainWall = Bodies.rectangle(W - leftDrainLen / 2 - 16, drainY, leftDrainLen, 10, { isStatic: true, render: { fillStyle: "#333" } });
+    const drainGapWidth = 70;
+    const playCenter = playAreaW / 2;
+    const leftDrainEnd = playCenter - drainGapWidth / 2;
+    const rightDrainStart = playCenter + drainGapWidth / 2;
+    const leftDrainWall = Bodies.rectangle((16 + leftDrainEnd) / 2, drainY, leftDrainEnd - 16, 10, { isStatic: true, render: { fillStyle: "#333" } });
+    const rightDrainWall = Bodies.rectangle((rightDrainStart + playAreaW) / 2, drainY, playAreaW - rightDrainStart, 10, { isStatic: true, render: { fillStyle: "#333" } });
 
-    const drainSensor = Bodies.rectangle(W / 2, H + 20, W, 40, {
+    const drainSensor = Bodies.rectangle(playCenter, H + 20, playAreaW, 40, {
       isStatic: true, isSensor: true, render: { visible: false }, label: "drain",
     });
 
-    const guideLen = 100;
-    const guideY = H - 170;
+    const guideLen = 90;
+    const guideY = H - 160;
     const guideAngle = Math.PI / 5;
-    const leftGuide = Bodies.rectangle(55, guideY, guideLen, 8, {
+    const leftGuide = Bodies.rectangle(50, guideY, guideLen, 8, {
       isStatic: true, angle: guideAngle, render: { fillStyle: "#AA3333", strokeStyle: "#FF4444", lineWidth: 2 },
       friction: 0, restitution: 0.3,
     });
-    const rightGuide = Bodies.rectangle(W - 55, guideY, guideLen, 8, {
+    const rightGuide = Bodies.rectangle(playAreaW - 45, guideY, guideLen, 8, {
       isStatic: true, angle: -guideAngle, render: { fillStyle: "#3333AA", strokeStyle: "#4444FF", lineWidth: 2 },
       friction: 0, restitution: 0.3,
     });
 
-    Composite.add(world, [leftWall, rightWall, topWall, leftDrainWall, rightDrainWall, drainSensor, leftGuide, rightGuide]);
+    Composite.add(world, [leftWall, rightWall, topWall, chuteSepBottom, chuteTopBlock, chuteTopBlock2, leftDrainWall, rightDrainWall, drainSensor, leftGuide, rightGuide]);
 
     const bumperData = [
-      { x: 120, y: 160, r: 24, color: "#FF2222", ring: "#FF6666" },
-      { x: 260, y: 160, r: 24, color: "#2255FF", ring: "#6688FF" },
-      { x: 190, y: 250, r: 28, color: "#22CC22", ring: "#66FF66" },
-      { x: 80, y: 320, r: 20, color: "#FF8800", ring: "#FFAA44" },
-      { x: 300, y: 320, r: 20, color: "#CC22CC", ring: "#FF66FF" },
+      { x: 110, y: 160, r: 24, color: "#FF2222", ring: "#FF6666" },
+      { x: 230, y: 160, r: 24, color: "#2255FF", ring: "#6688FF" },
+      { x: 170, y: 250, r: 28, color: "#22CC22", ring: "#66FF66" },
+      { x: 70, y: 320, r: 20, color: "#FF8800", ring: "#FFAA44" },
+      { x: 270, y: 320, r: 20, color: "#CC22CC", ring: "#FF66FF" },
     ];
 
     const bumpers = bumperData.map((bd, i) =>
@@ -142,19 +159,19 @@ export default function PinballGamePage() {
       Bodies.rectangle(25, 280, 8, 30, { isStatic: true, label: "target_0", restitution: 1.2, render: { fillStyle: "#FF4444" } }),
       Bodies.rectangle(25, 340, 8, 30, { isStatic: true, label: "target_1", restitution: 1.2, render: { fillStyle: "#FF4444" } }),
       Bodies.rectangle(25, 400, 8, 30, { isStatic: true, label: "target_2", restitution: 1.2, render: { fillStyle: "#FF4444" } }),
-      Bodies.rectangle(W - 25, 280, 8, 30, { isStatic: true, label: "target_3", restitution: 1.2, render: { fillStyle: "#4488FF" } }),
-      Bodies.rectangle(W - 25, 340, 8, 30, { isStatic: true, label: "target_4", restitution: 1.2, render: { fillStyle: "#4488FF" } }),
-      Bodies.rectangle(W - 25, 400, 8, 30, { isStatic: true, label: "target_5", restitution: 1.2, render: { fillStyle: "#4488FF" } }),
+      Bodies.rectangle(playAreaW - 15, 280, 8, 30, { isStatic: true, label: "target_3", restitution: 1.2, render: { fillStyle: "#4488FF" } }),
+      Bodies.rectangle(playAreaW - 15, 340, 8, 30, { isStatic: true, label: "target_4", restitution: 1.2, render: { fillStyle: "#4488FF" } }),
+      Bodies.rectangle(playAreaW - 15, 400, 8, 30, { isStatic: true, label: "target_5", restitution: 1.2, render: { fillStyle: "#4488FF" } }),
     ];
 
     const pegPositions: { x: number; y: number }[] = [];
     const pegs: Matter.Body[] = [];
     for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 6; col++) {
-        const offset = row % 2 === 0 ? 0 : 25;
-        const px = 55 + col * 55 + offset;
+      for (let col = 0; col < 5; col++) {
+        const offset = row % 2 === 0 ? 0 : 28;
+        const px = 50 + col * 56 + offset;
         const py = 420 + row * 40;
-        if (px > 25 && px < W - 25) {
+        if (px > 25 && px < playAreaW - 20) {
           pegPositions.push({ x: px, y: py });
           pegs.push(Bodies.circle(px, py, 5, {
             isStatic: true, restitution: 0.8, label: "peg",
@@ -165,8 +182,8 @@ export default function PinballGamePage() {
     }
 
     const slingPositions = [
-      { x: 50, y: H - 230, angle: 0.5 },
-      { x: W - 50, y: H - 230, angle: -0.5 },
+      { x: 45, y: H - 220, angle: 0.5 },
+      { x: playAreaW - 45, y: H - 220, angle: -0.5 },
     ];
     const slings = slingPositions.map((sp, i) =>
       Bodies.polygon(sp.x, sp.y, 3, 22, {
@@ -177,11 +194,11 @@ export default function PinballGamePage() {
 
     Composite.add(world, [...bumpers, ...targets, ...pegs, ...slings]);
 
-    const flipperW = 80;
+    const flipperW = 75;
     const flipperH = 14;
-    const flipperY = H - 70;
-    const leftPivotX = 70;
-    const rightPivotX = W - 70;
+    const flipperY = H - 60;
+    const leftPivotX = playCenter - 55;
+    const rightPivotX = playCenter + 55;
 
     const flipperRender = { fillStyle: "#C0C0C0", strokeStyle: "#888", lineWidth: 2 };
     const flipperOpts = { density: 0.02, friction: 0.1, restitution: 0.05, chamfer: { radius: 7 } };
@@ -190,15 +207,6 @@ export default function PinballGamePage() {
       { ...flipperOpts, label: "leftFlipper", render: flipperRender });
     const rightFlipper = Bodies.rectangle(rightPivotX - flipperW / 2 + 15, flipperY, flipperW, flipperH,
       { ...flipperOpts, label: "rightFlipper", render: flipperRender });
-
-    Constraint.create({
-      pointA: { x: leftPivotX, y: flipperY }, bodyB: leftFlipper,
-      pointB: { x: -flipperW / 2 + 15, y: 0 }, length: 0, stiffness: 1,
-    });
-    Constraint.create({
-      pointA: { x: rightPivotX, y: flipperY }, bodyB: rightFlipper,
-      pointB: { x: flipperW / 2 - 15, y: 0 }, length: 0, stiffness: 1,
-    });
 
     const leftPivotC = Constraint.create({
       pointA: { x: leftPivotX, y: flipperY }, bodyB: leftFlipper,
@@ -220,9 +228,9 @@ export default function PinballGamePage() {
     Body.setAngle(leftFlipper, restAngleLeft);
     Body.setAngle(rightFlipper, restAngleRight);
 
-    const ballSpawnX = W / 2;
-    const ballSpawnY = flipperY - 30;
-    const createBall = () => Bodies.circle(ballSpawnX, ballSpawnY, 11, {
+    const ballSpawnX = chuteX + chuteW / 2 + 4;
+    const ballSpawnY = H - 50;
+    const createBall = () => Bodies.circle(ballSpawnX, ballSpawnY, 10, {
       restitution: 0.4, friction: 0.005, density: 0.004, label: "ball",
       render: { fillStyle: "#E8E8E8", strokeStyle: "#999", lineWidth: 1 },
     });
@@ -238,27 +246,32 @@ export default function PinballGamePage() {
       ctx.save();
       ctx.globalAlpha = 0.04;
       ctx.strokeStyle = "#FFD700";
-      for (let i = 0; i < W; i += 20) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, H); ctx.stroke(); }
-      for (let j = 0; j < H; j += 20) { ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(W, j); ctx.stroke(); }
+      for (let i = 0; i < playAreaW; i += 20) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, H); ctx.stroke(); }
+      for (let j = 0; j < H; j += 20) { ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(playAreaW, j); ctx.stroke(); }
+      ctx.restore();
+
+      ctx.save();
+      ctx.fillStyle = "#0d0808";
+      ctx.fillRect(playAreaW - 4, 16, W - playAreaW + 4, H - 32);
       ctx.restore();
 
       ctx.save();
       ctx.globalAlpha = 0.06;
-      const starGrad = ctx.createRadialGradient(W / 2, 120, 10, W / 2, 120, 180);
+      const starGrad = ctx.createRadialGradient(playCenter, 120, 10, playCenter, 120, 160);
       starGrad.addColorStop(0, "#FFD700");
       starGrad.addColorStop(1, "transparent");
       ctx.fillStyle = starGrad;
-      ctx.fillRect(0, 0, W, 300);
+      ctx.fillRect(0, 0, playAreaW, 300);
       ctx.restore();
 
       ctx.save();
-      ctx.font = "bold 12px serif";
+      ctx.font = "bold 11px serif";
       ctx.textAlign = "center";
       ctx.globalAlpha = 0.1;
       ctx.fillStyle = "#FFD700";
-      ctx.fillText("BALLY UP GANG", W / 2, 220);
-      ctx.font = "bold 9px serif";
-      ctx.fillText("KINGDOM QUEST", W / 2, 235);
+      ctx.fillText("BALLY UP GANG", playCenter, 220);
+      ctx.font = "bold 8px serif";
+      ctx.fillText("KINGDOM QUEST", playCenter, 233);
       ctx.restore();
 
       const drawInsert = (x: number, y: number, r: number, color: string, lit: boolean) => {
@@ -276,12 +289,12 @@ export default function PinballGamePage() {
         ctx.restore();
       };
 
-      drawInsert(90, 380, 7, "#FF0000", true);
-      drawInsert(W / 2, 370, 7, "#00FF00", true);
-      drawInsert(W - 90, 380, 7, "#0088FF", true);
-      drawInsert(70, 540, 5, "#FF00FF", true);
-      drawInsert(W / 2, 550, 5, "#FFD700", true);
-      drawInsert(W - 70, 540, 5, "#00FFFF", true);
+      drawInsert(80, 380, 7, "#FF0000", true);
+      drawInsert(playCenter, 370, 7, "#00FF00", true);
+      drawInsert(playAreaW - 80, 380, 7, "#0088FF", true);
+      drawInsert(65, 540, 5, "#FF00FF", true);
+      drawInsert(playCenter, 540, 5, "#FFD700", true);
+      drawInsert(playAreaW - 65, 540, 5, "#00FFFF", true);
 
       const now = Date.now();
       bumperData.forEach((bd, i) => {
@@ -300,40 +313,36 @@ export default function PinballGamePage() {
       });
 
       ctx.save();
-      ctx.globalAlpha = 0.15;
+      ctx.globalAlpha = 0.12;
       ctx.strokeStyle = "#FF4444";
       ctx.lineWidth = 3;
       ctx.setLineDash([8, 4]);
       ctx.beginPath();
-      ctx.moveTo(50, 560);
-      ctx.quadraticCurveTo(40, 250, 130, 80);
+      ctx.moveTo(45, 550);
+      ctx.quadraticCurveTo(35, 250, 120, 80);
       ctx.stroke();
       ctx.strokeStyle = "#4444FF";
       ctx.beginPath();
-      ctx.moveTo(W - 50, 560);
-      ctx.quadraticCurveTo(W - 40, 250, W - 130, 80);
+      ctx.moveTo(playAreaW - 45, 550);
+      ctx.quadraticCurveTo(playAreaW - 35, 250, playAreaW - 120, 80);
       ctx.stroke();
       ctx.strokeStyle = "#22CC22";
       ctx.beginPath();
-      ctx.moveTo(110, 560);
-      ctx.quadraticCurveTo(W / 2, 350, W - 110, 560);
+      ctx.moveTo(100, 550);
+      ctx.quadraticCurveTo(playCenter, 350, playAreaW - 100, 550);
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.restore();
 
       ctx.save();
-      ctx.font = "bold 7px Arial";
+      ctx.font = "bold 9px Arial";
       ctx.textAlign = "center";
-      ctx.globalAlpha = 0.3;
-      ctx.fillStyle = "#FF4444";
-      ctx.fillText("LEFT", 40, 410);
-      ctx.fillText("RAMP", 40, 420);
-      ctx.fillStyle = "#4444FF";
-      ctx.fillText("RIGHT", W - 40, 410);
-      ctx.fillText("RAMP", W - 40, 420);
-      ctx.fillStyle = "#22CC22";
-      ctx.fillText("CENTER", W / 2, 345);
-      ctx.fillText("LOOP", W / 2, 355);
+      ctx.globalAlpha = 0.4;
+      ctx.fillStyle = "#FFD700";
+      const chuteCenter = playAreaW + (W - playAreaW) / 2;
+      ctx.fillText("▲", chuteCenter, H - 90);
+      ctx.font = "bold 7px Arial";
+      ctx.fillText("PULL", chuteCenter, H - 75);
       ctx.restore();
     });
 
@@ -429,7 +438,7 @@ export default function PinballGamePage() {
       if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") keysRef.current.right = true;
       if ((e.key === " " || e.key === "ArrowUp") && !launchedRef.current) {
         Body.setStatic(ball, false);
-        Body.setVelocity(ball, { x: (Math.random() - 0.5) * 4, y: -18 });
+        Body.setVelocity(ball, { x: 0, y: -25 });
         setLaunched(true);
         launchedRef.current = true;
       }
@@ -458,8 +467,10 @@ export default function PinballGamePage() {
       const world = engineRef.current.world;
       const oldBall = ballRef.current;
       if (oldBall) Matter.Composite.remove(world, oldBall);
-      const flipperY = H - 70;
-      const newBall = Matter.Bodies.circle(W / 2, flipperY - 30, 11, {
+      const playAreaW = W - 50;
+      const chuteX = playAreaW + 5;
+      const chuteW = W - playAreaW - 16;
+      const newBall = Matter.Bodies.circle(chuteX + chuteW / 2 + 4, H - 50, 10, {
         restitution: 0.4, friction: 0.005, density: 0.004, label: "ball",
         render: { fillStyle: "#E8E8E8", strokeStyle: "#999", lineWidth: 1 },
       });
