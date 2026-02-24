@@ -1,67 +1,48 @@
 import { db } from "./db";
 import {
-  users, merchandise, events, gallery, socialLinks, teams, streams, suggestions,
-  type User, type InsertUser,
+  merchandise, events, gallery, socialLinks, teams, streams, suggestions, scores, preorders,
   type Merchandise, type InsertMerchandise,
   type Event, type InsertEvent,
   type GalleryItem, type InsertGalleryItem,
   type SocialLink, type InsertSocialLink,
   type TeamMember, type InsertTeamMember,
   type Stream, type InsertStream,
-  type Suggestion, type InsertSuggestion
+  type Suggestion, type InsertSuggestion,
+  type Score, type InsertScore,
+  type Preorder, type InsertPreorder
 } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
-  // Users
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-
-  // Merchandise
   getMerchandise(): Promise<Merchandise[]>;
   createMerchandise(item: InsertMerchandise): Promise<Merchandise>;
 
-  // Events
   getEvents(): Promise<Event[]>;
   createEvent(event: InsertEvent): Promise<Event>;
 
-  // Gallery
   getGalleryItems(): Promise<GalleryItem[]>;
   createGalleryItem(item: InsertGalleryItem): Promise<GalleryItem>;
 
-  // Socials
   getSocialLinks(): Promise<SocialLink[]>;
   createSocialLink(link: InsertSocialLink): Promise<SocialLink>;
 
-  // Teams
   getTeamMembers(): Promise<TeamMember[]>;
   createTeamMember(member: InsertTeamMember): Promise<TeamMember>;
 
-  // Streams
   getStreams(): Promise<Stream[]>;
   createStream(stream: InsertStream): Promise<Stream>;
 
-  // Suggestions
   createSuggestion(suggestion: InsertSuggestion): Promise<Suggestion>;
+
+  createScore(score: InsertScore): Promise<Score>;
+  getTopScores(game: string, limit?: number): Promise<Score[]>;
+  getUserScores(userId: string): Promise<Score[]>;
+
+  createPreorder(preorder: InsertPreorder): Promise<Preorder>;
+  getUserPreorders(userId: string): Promise<Preorder[]>;
 }
 
 export class DatabaseStorage implements IStorage {
-  async getUser(id: number): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user;
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values(insertUser).returning();
-    return user;
-  }
-
   async getMerchandise(): Promise<Merchandise[]> {
     return await db.select().from(merchandise);
   }
@@ -119,6 +100,28 @@ export class DatabaseStorage implements IStorage {
   async createSuggestion(suggestion: InsertSuggestion): Promise<Suggestion> {
     const [newSuggestion] = await db.insert(suggestions).values(suggestion).returning();
     return newSuggestion;
+  }
+
+  async createScore(score: InsertScore): Promise<Score> {
+    const [newScore] = await db.insert(scores).values(score).returning();
+    return newScore;
+  }
+
+  async getTopScores(game: string, limit = 10): Promise<Score[]> {
+    return await db.select().from(scores).where(eq(scores.game, game)).orderBy(desc(scores.score)).limit(limit);
+  }
+
+  async getUserScores(userId: string): Promise<Score[]> {
+    return await db.select().from(scores).where(eq(scores.userId, userId)).orderBy(desc(scores.score));
+  }
+
+  async createPreorder(preorder: InsertPreorder): Promise<Preorder> {
+    const [newPreorder] = await db.insert(preorders).values(preorder).returning();
+    return newPreorder;
+  }
+
+  async getUserPreorders(userId: string): Promise<Preorder[]> {
+    return await db.select().from(preorders).where(eq(preorders.userId, userId)).orderBy(desc(preorders.createdAt));
   }
 }
 

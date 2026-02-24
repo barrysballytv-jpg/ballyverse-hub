@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { 
-  insertUserSchema, 
   insertMerchSchema, 
   insertEventSchema, 
   insertGallerySchema, 
@@ -8,14 +7,17 @@ import {
   insertTeamSchema,
   insertStreamSchema,
   insertSuggestionSchema,
-  users,
+  insertScoreSchema,
+  insertPreorderSchema,
   merchandise,
   events,
   gallery,
   socialLinks,
   teams,
   streams,
-  suggestions
+  suggestions,
+  scores,
+  preorders
 } from './schema';
 
 export const errorSchemas = {
@@ -123,7 +125,54 @@ export const api = {
         400: errorSchemas.validation,
       },
     },
-  }
+  },
+  scores: {
+    submit: {
+      method: 'POST' as const,
+      path: '/api/scores',
+      input: insertScoreSchema,
+      responses: {
+        201: z.custom<typeof scores.$inferSelect>(),
+        400: errorSchemas.validation,
+        401: z.object({ message: z.string() }),
+      },
+    },
+    leaderboard: {
+      method: 'GET' as const,
+      path: '/api/scores/leaderboard/:game',
+      responses: {
+        200: z.array(z.custom<typeof scores.$inferSelect>()),
+      },
+    },
+    user: {
+      method: 'GET' as const,
+      path: '/api/scores/me',
+      responses: {
+        200: z.array(z.custom<typeof scores.$inferSelect>()),
+        401: z.object({ message: z.string() }),
+      },
+    },
+  },
+  preorders: {
+    create: {
+      method: 'POST' as const,
+      path: '/api/preorders',
+      input: insertPreorderSchema,
+      responses: {
+        201: z.custom<typeof preorders.$inferSelect>(),
+        400: errorSchemas.validation,
+        401: z.object({ message: z.string() }),
+      },
+    },
+    user: {
+      method: 'GET' as const,
+      path: '/api/preorders/me',
+      responses: {
+        200: z.array(z.custom<typeof preorders.$inferSelect>()),
+        401: z.object({ message: z.string() }),
+      },
+    },
+  },
 };
 
 export function buildUrl(path: string, params?: Record<string, string | number>): string {
