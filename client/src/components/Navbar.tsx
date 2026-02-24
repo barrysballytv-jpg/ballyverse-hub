@@ -189,16 +189,18 @@ export function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <a href="/api/login" className="ml-4" data-testid="link-login">
-                <div className="px-4 py-2 bg-primary/10 text-primary border border-primary hover:bg-primary hover:text-black transition-all font-display text-xs uppercase cursor-pointer">
-                  Sign In
-                </div>
-              </a>
-              <a href="/api/login" className="ml-2" data-testid="link-signup">
-                <div className="px-4 py-2 bg-primary text-black border border-primary hover:bg-primary/80 transition-all font-display text-xs uppercase cursor-pointer">
-                  Sign Up
-                </div>
-              </a>
+              <>
+                <a href="/api/login" className="ml-4" data-testid="link-login">
+                  <div className="px-4 py-2 bg-primary/10 text-primary border border-primary hover:bg-primary hover:text-black transition-all font-display text-xs uppercase cursor-pointer">
+                    Sign In
+                  </div>
+                </a>
+                <a href="/api/login" className="ml-2" data-testid="link-signup">
+                  <div className="px-4 py-2 bg-primary text-black border border-primary hover:bg-primary/80 transition-all font-display text-xs uppercase cursor-pointer">
+                    Sign Up
+                  </div>
+                </a>
+              </>
             )}
           </div>
 
@@ -287,24 +289,26 @@ export function Navbar() {
                 </button>
               </>
             ) : (
-              <a href="/api/login">
-                <div 
-                  onClick={() => setIsOpen(false)}
-                  className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-primary text-primary hover:bg-primary/10 transition-all cursor-pointer"
-                  data-testid="link-login-mobile"
-                >
-                  Sign In
-                </div>
-              </a>
-              <a href="/api/login">
-                <div 
-                  onClick={() => setIsOpen(false)}
-                  className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-primary bg-primary/10 text-primary hover:bg-primary/20 transition-all cursor-pointer"
-                  data-testid="link-signup-mobile"
-                >
-                  Sign Up
-                </div>
-              </a>
+              <>
+                <a href="/api/login">
+                  <div 
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-primary text-primary hover:bg-primary/10 transition-all cursor-pointer"
+                    data-testid="link-login-mobile"
+                  >
+                    Sign In
+                  </div>
+                </a>
+                <a href="/api/login">
+                  <div 
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 border-primary bg-primary/10 text-primary hover:bg-primary/20 transition-all cursor-pointer"
+                    data-testid="link-signup-mobile"
+                  >
+                    Sign Up
+                  </div>
+                </a>
+              </>
             )}
           </div>
         </div>
