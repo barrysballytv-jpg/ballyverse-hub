@@ -121,16 +121,16 @@ export function Navbar() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-primary/10" />
                 <DropdownMenuItem asChild>
-                  <a href="/#clicker-game" className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 transition-colors focus:bg-primary/10 focus:text-white">
+                  <Link href="/games/clicker" className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 transition-colors focus:bg-primary/10 focus:text-white">
                     <Gamepad2 className="w-4 h-4 text-primary" />
                     <span className="font-display text-sm uppercase tracking-wider">Clicker Challenge</span>
-                  </a>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <a href="/#pinball-game" className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-secondary/10 transition-colors focus:bg-secondary/10 focus:text-white">
+                  <Link href="/games/pinball" className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-secondary/10 transition-colors focus:bg-secondary/10 focus:text-white">
                     <Gamepad2 className="w-4 h-4 text-secondary" />
                     <span className="font-display text-sm uppercase tracking-wider">Bally Bumper</span>
-                  </a>
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -193,8 +193,8 @@ export function Navbar() {
               <div className="font-display text-xs uppercase tracking-[0.2em] text-primary/60 mb-4 border-b border-primary/10 pb-2">
                 Arcade Games
               </div>
-              <a 
-                href="/#clicker-game" 
+              <Link 
+                href="/games/clicker" 
                 className="flex items-center gap-4 py-3 text-muted-foreground hover:text-primary transition-all group"
                 onClick={() => setIsOpen(false)}
               >
@@ -202,9 +202,9 @@ export function Navbar() {
                   <Gamepad2 className="w-5 h-5 text-primary" />
                 </div>
                 <span className="font-display text-base uppercase tracking-widest">Clicker Challenge</span>
-              </a>
-              <a 
-                href="/#pinball-game" 
+              </Link>
+              <Link 
+                href="/games/pinball" 
                 className="flex items-center gap-4 py-3 text-muted-foreground hover:text-secondary transition-all group"
                 onClick={() => setIsOpen(false)}
               >
@@ -212,7 +212,7 @@ export function Navbar() {
                   <Gamepad2 className="w-5 h-5 text-secondary" />
                 </div>
                 <span className="font-display text-base uppercase tracking-widest">Bally Bumper</span>
-              </a>
+              </Link>
             </div>
 
             <div className="border-t border-white/5 pt-4" />
