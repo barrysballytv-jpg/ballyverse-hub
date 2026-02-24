@@ -115,6 +115,19 @@ export function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
             <ThemeToggle />
+
+            {navItemsBefore.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div 
+                  className={cn(
+                    "font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary",
+                    location === item.href ? "text-primary text-shadow-neon" : "text-muted-foreground"
+                  )}
+                >
+                  {item.label}
+                </div>
+              </Link>
+            ))}
             
             {/* Games Dropdown */}
             <DropdownMenu>
@@ -143,19 +156,6 @@ export function Navbar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {navItemsBefore.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <div 
-                  className={cn(
-                    "font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary",
-                    location === item.href ? "text-primary text-shadow-neon" : "text-muted-foreground"
-                  )}
-                >
-                  {item.label}
-                </div>
-              </Link>
-            ))}
 
             {/* Gaming Teams Dropdown */}
             <DropdownMenu>
@@ -268,9 +268,27 @@ export function Navbar() {
         <div className="md:hidden bg-black/95 border-b border-primary/20 backdrop-blur-xl max-h-[90vh] overflow-y-auto">
           <div className="px-4 pt-2 pb-6 space-y-4">
             
+            <div className="border-t border-white/5 pt-4" />
+
+            {navItemsBefore.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div 
+                  className={cn(
+                    "block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 transition-all cursor-pointer",
+                    location === item.href 
+                      ? "border-primary text-primary bg-primary/10 pl-6" 
+                      : "border-transparent text-muted-foreground hover:text-white hover:pl-6"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+
             {/* Mobile Games Section */}
-            <div className="space-y-2 px-3 py-4">
-              <div className="font-display text-xs uppercase tracking-[0.2em] text-primary/60 mb-4 border-b border-primary/10 pb-2">
+            <div className="space-y-2 px-3 py-2">
+              <div className="font-display text-xs uppercase tracking-[0.2em] text-primary/60 mb-2 border-b border-primary/10 pb-2">
                 Arcade Games
               </div>
               <Link 
@@ -294,24 +312,6 @@ export function Navbar() {
                 <span className="font-display text-base uppercase tracking-widest">Bally Bumper</span>
               </Link>
             </div>
-
-            <div className="border-t border-white/5 pt-4" />
-
-            {navItemsBefore.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <div 
-                  className={cn(
-                    "block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 transition-all cursor-pointer",
-                    location === item.href 
-                      ? "border-primary text-primary bg-primary/10 pl-6" 
-                      : "border-transparent text-muted-foreground hover:text-white hover:pl-6"
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </div>
-              </Link>
-            ))}
 
             {/* Mobile Gaming Teams Section */}
             <div className="space-y-1 px-3 py-2">
