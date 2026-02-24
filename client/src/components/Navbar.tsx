@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Menu, X, Info, ChevronDown, Gamepad2, LayoutDashboard, LogOut, User } from "lucide-react";
+import { Menu, X, Info, ChevronDown, Gamepad2, LayoutDashboard, LogOut, User, Swords } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import {
@@ -21,9 +21,18 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
-const navItems = [
+const navItemsBefore = [
   { label: "Home", href: "/" },
   { label: "Merch", href: "/merch" },
+];
+
+const gamingTeams = [
+  { label: "FC Team", href: "/teams/fc" },
+  { label: "Racing Team", href: "/teams/racing" },
+  { label: "Call of Duty Team", href: "/teams/cod" },
+];
+
+const navItemsAfter = [
   { label: "Events", href: "/events" },
   { label: "Gallery", href: "/gallery" },
   { label: "Rules", href: "/rules" },
@@ -135,7 +144,44 @@ export function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {navItems.map((item) => (
+            {navItemsBefore.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div 
+                  className={cn(
+                    "font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary",
+                    location === item.href ? "text-primary text-shadow-neon" : "text-muted-foreground"
+                  )}
+                >
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+
+            {/* Gaming Teams Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="font-display text-sm uppercase tracking-wider cursor-pointer transition-colors duration-200 hover:text-primary text-muted-foreground flex items-center gap-1 group" data-testid="dropdown-gaming-teams">
+                  Gaming Teams
+                  <ChevronDown className="w-4 h-4 group-data-[state=open]:rotate-180 transition-transform" />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-black/95 border-primary/20 text-white min-w-[220px]">
+                <DropdownMenuLabel className="font-display text-xs uppercase tracking-widest text-primary/60 px-4 py-2">
+                  Teams
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-primary/10" />
+                {gamingTeams.map((team) => (
+                  <DropdownMenuItem key={team.href} asChild>
+                    <Link href={team.href} className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-primary/10 transition-colors focus:bg-primary/10 focus:text-white">
+                      <Swords className="w-4 h-4 text-primary" />
+                      <span className="font-display text-sm uppercase tracking-wider">{team.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {navItemsAfter.map((item) => (
               <Link key={item.href} href={item.href}>
                 <div 
                   className={cn(
@@ -251,7 +297,46 @@ export function Navbar() {
 
             <div className="border-t border-white/5 pt-4" />
 
-            {navItems.map((item) => (
+            {navItemsBefore.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div 
+                  className={cn(
+                    "block px-3 py-4 font-display text-lg uppercase tracking-widest border-l-2 transition-all cursor-pointer",
+                    location === item.href 
+                      ? "border-primary text-primary bg-primary/10 pl-6" 
+                      : "border-transparent text-muted-foreground hover:text-white hover:pl-6"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+
+            {/* Mobile Gaming Teams Section */}
+            <div className="space-y-1 px-3 py-2">
+              <div className="font-display text-xs uppercase tracking-[0.2em] text-primary/60 mb-2 border-b border-primary/10 pb-2">
+                Gaming Teams
+              </div>
+              {gamingTeams.map((team) => (
+                <Link key={team.href} href={team.href}>
+                  <div
+                    className={cn(
+                      "flex items-center gap-3 py-3 pl-2 font-display text-base uppercase tracking-widest transition-all cursor-pointer",
+                      location === team.href
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-primary"
+                    )}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <Swords className="w-4 h-4 text-primary" />
+                    {team.label}
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {navItemsAfter.map((item) => (
               <Link key={item.href} href={item.href}>
                 <div 
                   className={cn(
