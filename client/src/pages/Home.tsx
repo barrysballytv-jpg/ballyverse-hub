@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowRight, Sparkles, Gamepad2, ShoppingBag } from "lucide-react";
+import { ArrowRight, Sparkles, Gamepad2, ShoppingBag, Trophy } from "lucide-react";
 import { NeonCard } from "@/components/NeonCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import Matter from "matter-js";
 
 export default function Home() {
   return (
@@ -152,6 +153,206 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PINBALL MINI-GAME */}
+      <section className="py-24 relative z-10 bg-black overflow-hidden">
+        {/* Damask Pattern Overlay */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/black-orchid.png')]" />
+        
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="inline-block mb-8 p-1 bg-gradient-to-r from-primary via-yellow-600 to-primary rounded-lg shadow-[0_0_30px_rgba(255,215,0,0.3)]">
+              <div className="bg-black px-8 py-4 rounded-md border border-primary/30">
+                <h2 className="text-4xl md:text-6xl font-display text-primary tracking-[0.2em] drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]">
+                  BALLY BUMPER MODE
+                </h2>
+                <p className="text-primary/60 font-mono text-xs uppercase tracking-widest mt-2">The Boss Mode Edition</p>
+              </div>
+            </div>
+            
+            <PinballGame />
+          </motion.div>
+        </div>
+      </section>
+
+    </div>
+  );
+}
+
+function PinballGame() {
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const engineRef = useRef<Matter.Engine | null>(null);
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    if (!sceneRef.current) return;
+
+    const Engine = Matter.Engine,
+      Render = Matter.Render,
+      Runner = Matter.Runner,
+      Bodies = Matter.Bodies,
+      Composite = Matter.Composite,
+      Events = Matter.Events,
+      Body = Matter.Body;
+
+    const engine = Engine.create();
+    engineRef.current = engine;
+    const world = engine.world;
+
+    const render = Render.create({
+      element: sceneRef.current,
+      engine: engine,
+      options: {
+        width: 400,
+        height: 600,
+        wireframes: false,
+        background: 'transparent'
+      }
+    });
+
+    Render.run(render);
+    const runner = Runner.create();
+    Runner.run(runner, engine);
+
+    // Walls
+    const wallOptions = { isStatic: true, render: { fillStyle: '#DAA520' } };
+    const leftWall = Bodies.rectangle(10, 300, 20, 600, wallOptions);
+    const rightWall = Bodies.rectangle(390, 300, 20, 600, wallOptions);
+    const topWall = Bodies.rectangle(200, 10, 400, 20, wallOptions);
+    const bottomWall = Bodies.rectangle(200, 610, 400, 20, { ...wallOptions, isSensor: true }); // Drain
+
+    // Bumpers
+    const bumperOptions = { 
+      isStatic: true, 
+      restitution: 1.5,
+      render: { fillStyle: '#FFD700', strokeStyle: '#DAA520', lineWidth: 4 }
+    };
+    const bumper1 = Bodies.circle(100, 150, 25, bumperOptions);
+    const bumper2 = Bodies.circle(300, 150, 25, bumperOptions);
+    const bumper3 = Bodies.circle(200, 250, 30, bumperOptions);
+    
+    // Slingshots (Triangles)
+    const slingLeft = Bodies.polygon(80, 450, 3, 30, { 
+      isStatic: true, restitution: 1.8, angle: Math.PI / 2,
+      render: { fillStyle: '#DAA520' }
+    });
+    const slingRight = Bodies.polygon(320, 450, 3, 30, { 
+      isStatic: true, restitution: 1.8, angle: -Math.PI / 2,
+      render: { fillStyle: '#DAA520' }
+    });
+
+    // Flippers
+    const flipperOptions = { isStatic: true, render: { fillStyle: '#FFD700' } };
+    const leftFlipper = Bodies.rectangle(130, 550, 80, 15, { 
+      ...flipperOptions, 
+      chamfer: { radius: 7 },
+      angle: 0.3
+    });
+    const rightFlipper = Bodies.rectangle(270, 550, 80, 15, { 
+      ...flipperOptions, 
+      chamfer: { radius: 7 },
+      angle: -0.3
+    });
+
+    // Ball
+    const createBall = () => {
+      return Bodies.circle(365, 500, 10, {
+        restitution: 0.5,
+        friction: 0.005,
+        render: { fillStyle: '#FFFFFF', strokeStyle: '#FFD700', lineWidth: 2 }
+      });
+    };
+    let ball = createBall();
+
+    Composite.add(world, [leftWall, rightWall, topWall, bottomWall, bumper1, bumper2, bumper3, slingLeft, slingRight, leftFlipper, rightFlipper, ball]);
+
+    // Controls
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        Body.setAngle(leftFlipper, -0.4);
+      }
+      if (e.key === 'ArrowRight') {
+        Body.setAngle(rightFlipper, 0.4);
+      }
+      if (e.key === ' ' || e.key === 'ArrowUp') {
+        Body.applyForce(ball, ball.position, { x: 0, y: -0.015 });
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') Body.setAngle(leftFlipper, 0.3);
+      if (e.key === 'ArrowRight') Body.setAngle(rightFlipper, -0.3);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    // Scoring
+    Events.on(engine, 'collisionStart', (event) => {
+      event.pairs.forEach((pair) => {
+        if (pair.bodyA === bumper1 || pair.bodyB === bumper1 || 
+            pair.bodyA === bumper2 || pair.bodyB === bumper2 ||
+            pair.bodyA === bumper3 || pair.bodyB === bumper3) {
+          setScore(s => s + 100);
+        }
+        if (pair.bodyA === bottomWall || pair.bodyB === bottomWall) {
+          setScore(0);
+          Composite.remove(world, ball);
+          ball = createBall();
+          Composite.add(world, ball);
+        }
+      });
+    });
+
+    return () => {
+      Render.stop(render);
+      Engine.clear(engine);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center gap-6">
+      <div className="bg-black/80 border-4 border-primary/50 p-4 rounded-xl shadow-[0_0_50px_rgba(218,165,32,0.3)] relative group">
+        <div className="absolute inset-0 border-2 border-primary/20 m-1 pointer-events-none" />
+        
+        {/* Score Board */}
+        <div className="mb-4 bg-black/60 border border-primary/30 py-2 px-6 rounded-lg flex justify-between items-center">
+          <span className="text-primary font-display text-sm tracking-widest uppercase">BOSS SCORE</span>
+          <span className="text-white font-mono text-2xl drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">
+            {score.toLocaleString().padStart(8, '0')}
+          </span>
+        </div>
+
+        {/* Game Canvas Container */}
+        <div 
+          ref={sceneRef} 
+          className="bg-[radial-gradient(circle_at_center,_#1a1a1a_0%,_#000000_100%)] rounded border-2 border-primary/20 overflow-hidden relative"
+          style={{ width: 400, height: 600 }}
+        >
+          {/* Decorative Elements */}
+          <div className="absolute top-10 left-10 w-20 h-20 border border-primary/10 rounded-full animate-pulse" />
+          <div className="absolute bottom-10 right-10 w-20 h-20 border border-secondary/10 rounded-full animate-pulse delay-700" />
+          <Trophy className="absolute bottom-4 right-4 w-12 h-12 text-primary/10" />
+        </div>
+
+        {/* Instructions */}
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          <div className="bg-primary/10 border border-primary/20 p-2 rounded text-[10px] font-mono text-primary uppercase text-center">
+            ← Left Flipper
+          </div>
+          <div className="bg-primary/10 border border-primary/20 p-2 rounded text-[10px] font-mono text-primary uppercase text-center">
+            Right Flipper →
+          </div>
+        </div>
+        <div className="mt-2 bg-secondary/10 border border-secondary/20 p-2 rounded text-[10px] font-mono text-secondary uppercase text-center w-full">
+          SPACE / UP TO LAUNCH BALL
+        </div>
+      </div>
     </div>
   );
 }
