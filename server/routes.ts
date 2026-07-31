@@ -11,7 +11,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  await setupAuth(app);
+ // await setupAuth(app);
   registerAuthRoutes(app);
 
   // Serve attached assets

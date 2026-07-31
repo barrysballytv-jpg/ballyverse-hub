@@ -1,0 +1,20 @@
+[1G[0K⠙[1G[0K
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0K⠙[1G[0K5:38:19 PM [express] serving on port 5000
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+5:38:38 PM [express] GET /api/auth/user 401 in 3ms :: {"message":"Unauthorized"}
+6:20:50 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+7:25:00 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+7:25:21 PM [express] GET /api/merchandise 200 in 13ms :: [{"id":3,"name":"BuG Black & White Hoodie","description":"COMING SOON: Premium split-design hoodie with bold Bally Up Gang branding.","price":0,"imageUrl":"/attached_assets/IMG_4100_1768734433818.png","buyLink":"#"}]
+7:27:10 PM [express] GET /api/gallery 200 in 12ms :: [{"id":1,"title":"GTA RP High Speed Chase","type":"video","category":"Best Moments","url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"},{"id":2,"title":"Bally Up Gang Meetup","type":"image","category":"Best Moments","url":"https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800"},{"id":3,"title":"FC 24 Insane Goal","type":"video","category":"Best FC Moments","url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"},{"id":4,"title":"Bally Up Gang Elite FC Moment","type":"video","category":"Best FC Moments","url":"https://youtu.be/vlrJr8SFZ64?si=UYksVcjhR7oBfwhv"},{"id":5,"title":"Squad Victory","type":"image","category":"Best FC Moments","url":"https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800"},{"id":6,"title":"COD Warzone Clutch","type":"video","category":"Best Call of Duty Moments","url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"},{"id":7,"title":"Quickscope Montage","type":"image","category":"Best Call of Duty Moments","url":"https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800"},{"id":8,"title":"Bally Up Gang Crown Logo","type":"image","category":"Community Logos","url":"/attached_assets/IMG_3811_1768470082283.jpeg"},{"id":9,"title":"Street Style Branding","type":"image","category":"Community Logos","url":"/attached_assets/IMG_3806_1768470082283.jpeg"},{"id":10,"title":"Fire and Smoke Logo","type":"image","category":"Community Logos","url":"/attached_assets/IMG_3759_1768470082283.jpeg"},{"id":11,"title":"GTA Style Skull Crown","type":"image","category":"Community Logos","url":"/attached_assets/IMG_3758_1768470082283.jpeg"},{"id":12,"title":"10 Game Winstreak","type":"image","category":"Winstreaks","url":"https://images.unsplash.com/photo-1533134486753-c81769d9607b?w=800"},{"id":13,"title":"The Champion Era","type":"video","category":"Winstreaks","url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}]
+7:27:42 PM [express] GET /api/auth/user 401 in 2ms :: {"message":"Unauthorized"}
+7:27:54 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+7:28:08 PM [express] GET /api/merchandise 304 in 12ms :: [{"id":3,"name":"BuG Black & White Hoodie","description":"COMING SOON: Premium split-design hoodie with bold Bally Up Gang branding.","price":0,"imageUrl":"/attached_assets/IMG_4100_1768734433818.png","buyLink":"#"}]
+8:35:31 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+8:35:33 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+8:48:43 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+10:18:30 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
