@@ -15,7 +15,7 @@ export async function registerRoutes(
   registerAuthRoutes(app);
 
   // Serve attached assets
-  app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "../attached_assets")));
+  app.use("/attached_assets", express.static(path.resolve(__dirname, "../attached_assets")));
 
   app.get(api.merchandise.list.path, async (req, res) => {
     const items = await storage.getMerchandise();
