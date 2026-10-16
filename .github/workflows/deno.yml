@@ -29,12 +29,14 @@ jobs:
           cache: npm
 
       - name: Install dependencies
+        id: install
         run: npm ci --include=dev
 
       - name: Check TypeScript
         run: npm run check
 
       - name: Build application
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run build
 
       # No test script is defined in package.json. Add a test step when one exists.
