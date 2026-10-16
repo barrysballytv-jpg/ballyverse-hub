@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, buildUrl, type InsertMerchandise, type InsertEvent, type InsertGalleryItem } from "@shared/routes";
+import { api } from "@shared/routes";
+import type { InsertMerchandise, InsertEvent, InsertGalleryItem } from "@shared/schema";
 
 // ================= MERCHANDISE =================
 export function useMerchandise() {
